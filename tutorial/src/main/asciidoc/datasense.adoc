@@ -1,63 +1,70 @@
 :mule: Mule Cook Book
+:resourcesDir: resources
 
 == Adding DataSense
 
 === What is it?
 
-http://www.mulesoft.org/documentation/display/current/DataSense[DataSense] is a feature used to improve the user experience at design time when creating Mule applications.
+DataSense improves the user experience at design time when creating Mule applications by enabling your connector to determine the API of your target resource.
 
-If coded correctly, user will be able to take advantage of the messages metadata to facilitate application design. With this functionality, Anypoint(TM) Studio proactively acquires information about data, such as data type and structure, in order to prescribe how to accurately map or use data in your application.
+Even though DataSense is optional, its use enables connector users acquire metadata of the entities in a service.
 
-Is feature that displays the metadata of the entities included in the service in a friendly manner. Although this feature is optional, Mule strongly recommends that you use DataSense in your connector much easier to use for end users.
+See:
 
-Full documentation is available http://www.mulesoft.org/documentation/display/current/Adding+DataSense[here].
+* http://www.mulesoft.org/documentation/display/current/Adding+DataSense[Adding DataSense]
+* http://www.mulesoft.org/documentation/display/current/DataSense[DataSense]
 
-=== How to implement it
+In this tutorial, we use a static DataSense model, which means that the entities are fixed and known, and do not change. The fields that this model supports are also fixed.
 
-==== My model is static
+==== Using DataSense
 
-When we say that a model is static, it mean that the entities are fixed and know and cannot change in anyway. The fields it supports are fixed.
+To use DataSense in the cookbook:
 
-Lets analyze the entities in {mule} service. We just have 2 simple entities, Recipe and Ingredient that extends from CookBookEntity.
-
-Now, lets take a look at how our createIngredient operation looks inside Anypoint Studio. And how it interacts with other components.
-
+. Analyze the entities in {mule} service. We just have two simple entities, Recipe and Ingredient that both extend from CookBookEntity.
+. Look at how our createIngredient operation looks inside Anypoint Studio, and how it interacts with other components.
++
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v3/CookBookConnector.java[lines=66..70]
 ----
 
-We defined the operation so that it receives an Ingredient, and it return the Ingredient with the extra fields populated form the server.
+===== Handling Ingredients
 
-If we check the input metadata, we can see that the expected output is a Pojo, with the expected fields our Ingredient has:
+We defined the operation so that it receives an Ingredient, and it returns an Ingredient with the extra fields populated from the server.
 
-image::datasense.png[width="900"]
+Let's handle the ingredients:
 
-If we verify the output metadata, it is also the expected one.
-
-image::datasense2.png[width="900"]
-
-So now, if we drag and drop a datamapper either behind or after our connector, we will see that datamapper automatically picks the input or output.
-
-image::datamapper-input1.png[title="Datamapper Receiving Connector Output ", width="900"]
-
+. Check the input metadata to see that the expected output is a POJO, with the expected fields our Ingredient has:
++
+image::datasense-expected-ingredients.png[width="600"]
++
+. Verify that the output metadata is expected:
++
+image::datasense-ingredients.png[width="600"]
++
+. Drag and drop a DataMapper either behind or after our connector. The DataMapper automatically picks the input or output:
++
+image::datasense-datamapper.png[title="DataMapper Receiving Connector Output", width="600"]
++
 image::datamapper-output1.png[title="Datamapper Setting Connector Input",width="900"]
++
+Because DevKit auto-generates static metadata, DevKit automatically ensures that your connector knows how to propagate metadata information.
 
-Because DevKit auto generates static meta data, your connector know how propagate meta data information.
+===== Handling Recipes
 
-But we don't have just Ingredients, we also have Recipes, but we don't want to have one method for each entity we have in our model.
+We don't have just Ingredients, we also have Recipes, so we don't want one method for each entity we have in our model.
 
-So lets make some modifications so that we just work with the CookBookEntity class.
+Let's modify our connector to just work with the CookBookEntity class:
 
-Here we have our new create operation.
+. Create an operation:
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v4/CookBookConnector.java[lines=67..72]
 ----
-
-Because of some DevKit limitations regarding how to handle Abstract classes, we need to specify that the input can only be specified as a reference.
-
-But lets see how this affects the UI and user experience.
++
+. Specify that the input can only be specified as a reference (due to a DevKit limitations on handling Abstract classes).
++
+But let's see how this affects the UI and user experience.
 
 Studio, can no longer determine input or output type:
 
