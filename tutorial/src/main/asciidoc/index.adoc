@@ -7,7 +7,7 @@
 :numbered:
 :website: http://mulesoft.org/
 :muleJerveyVersion: 2.11
-:toclevels: 1
+:toclevels: 2
 :title: Cookbook Tutorial - MuleSoft
 
 = Anypoint Studio Devkit
@@ -40,22 +40,21 @@ include::service-description.adoc[]
 
 Before start consuming our {tutorial} service, lets start by doing a Hello World Connector, and understanding the generated code.
 
-Click *File* > *New*, then select *Anypoint Connector Project* or simple do a right click of the package explorer and select *New* > *Anypoint Connector Project*:
-
+. Click *File* > *New*, then select *Anypoint Connector Project* or simple do a right click of the package explorer and select *New* > *Anypoint Connector Project*:
++
 image::new-connector-1.png[width="500"]
-
-Just put the name of your connector and click on finish:
-
++
+. Just put the name of your connector and click on finish:
++
 image::new-connector-2.png[width="500"]
-
++
 This generates a project containing the structure with all the required elements such as images, sample docs, and some basic tests for your connector.
-
++
 image::new-connector-3.png[width="600"]
-
-To enable the DevKit view select from the top bar *Window* > *Show view* > *Other* , and look for DevKit on the list.
-
++
+. To enable the DevKit view select from the top bar *Window* > *Show view* > *Other* , and look for DevKit on the list.
++
 image::enable-view.png[width="300", height="400"]
-
 
 === Understanding the a Connector Structure
 
@@ -85,7 +84,7 @@ To solve this, the DevKit provides a pair of annotations that allows developer t
 
 By marking a field with @ConnectionStrategy the DevKit will make sure that you have an initialized object set when the Mule app is running and a request is made to your connector.
 
-If there is no need for authentication and/or connection management but you need to configure some things, you can have a class marked with @Configuration.
+At this point there is no need for authentication and/or connection management but you need to configure some things, so we will create a class marked with @Configuration.
 
 If you actually need an authentication there are several annotations that will help you achieve the desired behaviour as we will see in this tutorial.
 
@@ -95,14 +94,14 @@ Let start coding and create a connector that allows us to get the recently added
 
 Since the {tutorial} service description says we don't need any kind of authentication to consume the recently added recipies, this is the best operation we can use to start learning how to build our @Connector.
 
-Create a new Anypoint Connector Project with the following configuration and don't forget to uncheck the default generation:
-
+. Create a new Anypoint Connector Project with the following configuration and don't forget to uncheck the default generation:
++
 image:new1.png[width="500"]
-
++
 After that lets add our client dependency so that we can use it in our connector.
-
-In your pom.xml add:
-
++
+. In your pom.xml add:
++
 [source,xml,indent=0]
 ----
 <dependencies>
@@ -114,25 +113,25 @@ In your pom.xml add:
 </dependencies>
 ----
 
-==== I don't need an authentication
+==== Initialize the Connector
 
-Here even if we don't need to authenticate against our sandbox, we still need to initialize the client before consuming the service.
+We need to initialize the client before consuming the service.
 
-Anypoint Connectors can be fully aware of http://www.mulesoft.org/documentation/display/34X/Integrating+Connectors+with+the+Mule+Lifecycle[Mule's lifecycle] without implementing any Mule specific interface. There is one method annotation for each of the four phases of Mule lifecycle. If a method is annotated with one of these annotations it will be invoked during the Mule lifecycle phase that annotation represents.
+Anypoint Connectors can be fully aware of http://www.mulesoft.org/documentation/display/34X/Integrating+Connectors+with+the+Mule+Lifecycle[Mule's lifecycle] without implementing any Mule specific interface.
 
-We are going to use the @Start to initialize our client.
-
+. Use the @Start to initialize our client.
++
 [source,java]
 ----
 include::{resourcesDir}/java/v1/CookBookConnector.java[lines=30..35]
 ----
-Check the full link:{resourcesDir}/java/v1/CookBookConnector.java[source code].
+Check the full link:{resourcesDir}/java/v1/CookBookConnector.java[source code] to where @Start fits in.
 
 If you want, you can continue and directly implement your connector with connection management, if not, just go to the add your first <<configurable,configurable>>.
 
-==== Using connection Management
+==== Using Connection Management
 
-Unlike the getRecentlyAdded call that doesn't need for us to be authenticated, all other operation requires that we sent a token on each request.
+Almost all requests  requires that we sent a token on each request.
 
 The client we are using provides a login call that will initialize the token and use it in subsequent requests.
 
