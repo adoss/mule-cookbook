@@ -2,9 +2,11 @@
 
 == Improving Error Handling
 
+This section explains how to improve exception handling and reconnecting.
+
 === Exception Handling with @Handler
 
-The http://www.mulesoft.org/documentation/display/current/Annotation+Reference#AnnotationReference-handleran[@Handler] feature, is a very useful feature when you want to avoid duplicated code when handling exceptions, and also so that your connector code is clean.
+The http://www.mulesoft.org/documentation/display/current/Annotation+Reference#AnnotationReference-handleran[@Handler] feature, is very useful when you want to avoid duplicated code when handling exceptions, and also so that your connector code is clean.
 
 When handling messages retrieved from the API, if the message is poor and you know how to improve it, you can us this mechanism, to enrich the error provided to the user.
 
@@ -17,7 +19,7 @@ Our @Handler Class could be:
 include::{resourcesDir}/java/v3/CookBookHandler.java[]
 ----
 
-And to use it in one processor.
+To use it in one processor.
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v3/CookBookConnector.java[lines=66..70]
@@ -35,7 +37,7 @@ Just annotate your @Processor method with the @ReconnectOn exception.
 include::{resourcesDir}/java/v3/CookBookConnector.java[lines=84..88]
 ----
 
-In our Mule app, we configure a reconnection strategy and our Mule app is ready to  handle session expirations.
+In our Mule app, you can configure a reconnection strategy so that our Mule app is ready to  handle session expirations.
 
 Global Config dialog configuration:
 

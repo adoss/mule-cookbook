@@ -10,6 +10,6 @@ One of the use cases of Message Sources is implementing Streaming APIs. The @Sou
 Create a @Source that consumes the Get Recently Updated on the Connector
 Show how to use it in an app. Video of user drag and dropping into the canvas and configuring it.
 
-==== Test my @Source
+// ==== Test my @Source
 
 // TODO

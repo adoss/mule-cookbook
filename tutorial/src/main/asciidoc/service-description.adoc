@@ -5,14 +5,14 @@ The {tutorial} is a connector that helps users organize ingredients and recipes,
 
 === API Description
 
-This API allows users to use the create, read, update, and delete (CRUD) operations for single and multiple recipes and ingredients. The API also allows you to get the recently added recipes.
+This API allows users to use the create, read, update, and delete (CRUD) operations for single and multiple recipes and ingredients. The API also allows you to view recently added recipes.
 
-The API is exposed as a SOAP Service using a  link:{resourcesDir}/wsdl/IMuleCookBookService.wsdl[WSDL] file, as a Rest API by a link:{resourcesDir}/api.raml[RAML] file, and through an link:{resourcesDir}/java/IMuleCookBookClient.java[SDK].
+The API is exposed as a SOAP Service using a  link:{resourcesDir}/wsdl/IMuleCookBookService.wsdl[WSDL] file, as a Rest API with a link:{resourcesDir}/api.raml[RAML] file, and through a Java  link:{resourcesDir}/java/IMuleCookBookClient.java[SDK].
 
 
 === Authentication
 
-Supports the following types:
+This connector supports the following authentication types:
 
 * Custom with a username and password that provides a token to send with each request as part of the request.
 

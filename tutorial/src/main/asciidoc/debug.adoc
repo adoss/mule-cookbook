@@ -1,4 +1,4 @@
-== Debugging your @Connector
+== Debugging Your Connector
 
 After successfully installing your connector, you can start using your connector in a Mule application.
 Put a breakpoint in your source code of the connector to debug it.
