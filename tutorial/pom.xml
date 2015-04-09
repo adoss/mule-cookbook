@@ -84,7 +84,7 @@
                             <attributes>
                                 <linkcss>false</linkcss>
                                 <icons>font</icons>
-                                <!-- <docinfo1/> -->
+                                <docinfo1/>
                                 <stylesheet>${basedir}/src/main/asciidoc/css/mule.css</stylesheet>
                             </attributes>
                         </configuration>
