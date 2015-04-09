@@ -80,7 +80,7 @@
                         <configuration>
                             <outputDirectory>${project.build.directory}</outputDirectory>
                             <backend>html5</backend>
-                            <sourceHighlighter>highlightjs</sourceHighlighter>
+                            <sourceHighlighter>coderay</sourceHighlighter>
                             <attributes>
                                 <linkcss>false</linkcss>
                                 <icons>font</icons>
@@ -106,6 +106,13 @@
                     <artifactId>asciidoctor</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+       <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>coderay</artifactId>
+        <version>1.1.0</version>
+        <type>gem</type>
+        <scope>provided</scope>
         </dependency>
     </dependencies>
     <repositories>
