@@ -1,3 +1,4 @@
+[[install-guide]]
 == Installing a Connector
 
 Installing the connector is basically the same as installing any Eclipse plugin.

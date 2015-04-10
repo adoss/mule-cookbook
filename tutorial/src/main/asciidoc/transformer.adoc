@@ -31,9 +31,9 @@ To use your transformer, just drag and drop it from the palette.
 
 image::transformer.png[width="600"]
 
-Show how it is used with auto discovery
+// Show how it is used with auto discovery
 
-Show how it is used explicitly
+// Show how it is used explicitly
 
 See:
 

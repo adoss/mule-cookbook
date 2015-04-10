@@ -56,6 +56,7 @@ We don't have just Ingredients, we also have Recipes, so we don't want one metho
 Let's modify our connector to just work with the CookBookEntity class:
 
 . Create an operation:
++
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v4/CookBookConnector.java[lines=67..72]
@@ -63,20 +64,20 @@ include::{resourcesDir}/java/v4/CookBookConnector.java[lines=67..72]
 +
 . Specify that the input can only be specified as a reference (due to a DevKit limitations on handling Abstract classes).
 +
-But let's see how this affects the UI and user experience.
-
+Let's see how this affects the UI and user experience.
++
 Studio, can no longer determine input or output type:
-
++
 image::ref-only-input.png[title="Connector Input with @RefOnly",width="900"]
-
++
 image::ref-only-output.png[title="Connector Output with Abstract Class",width="900"]
-
-And even in datamapper is not automatically populated, with the type:
-
++
+Even if DataMapper is not automatically populated with the type:
++
 image::ref-only-datamapper.png[title="DataMapper with connector with @RefOnly parameter",width="900"]
-
++
 We are forced to manually configure the input:
-
++
 image::manual-datamapper.png[title="Selecting a POJO manually",width="900"]
 
 In the next section we get back our DataMapper-friendly user experience.
@@ -232,5 +233,3 @@ To go deeper into how to test DataSense check our http://mulesoft.github.io/conn
 
 // TODO
 // === Adding @Query
-
-// Use v2 and extend datasense to describe what can be querable.

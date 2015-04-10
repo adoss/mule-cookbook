@@ -1,8 +1,8 @@
 == Features in Tutorial
 
-In this tutorial we show you how to add value and simplify a connector that users can interact with in Mule. We also describe the different features provided by the Anypoint Connector DevKit.
+In this tutorial we show you how to create a connector that users can interact with in Mule. We also describe the different features provided by the Anypoint Connector DevKit.
 
-We start by generating a simple @Connector for a web service.
+We start by generating a simple connector for a web service.
 
 After that, we show you how to add fields that users can configure in Anypoint Studio with the @Configurable annotation that you put in your connector's @Processor method, and how to test these fields. For a full list of supported annotations, see the http://www.mulesoft.org/documentation/display/current/Annotation+Reference[Annotation Reference].
 
