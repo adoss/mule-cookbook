@@ -80,7 +80,7 @@ public class CookBookConnector {
 	public void getRecentlyAddedSource(final SourceCallback callback)
 			throws Exception {
 		while (true) {
-			// Every 5 seconds our callback will be executed
+			// Every 5 seconds our callback will be executed according to the API
 			getClient().getRecentlyAdded(new ICookbookCallback() {
 
 				@Override
