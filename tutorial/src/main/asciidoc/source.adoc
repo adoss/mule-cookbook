@@ -33,19 +33,19 @@ image::source-example.png[width="600"]
     <div class="panel-heading no-padding">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li class="active"><a href="#home" role="tab" data-toggle="tab">Mule App</a></li>
-            <li><a href="#profile" role="tab" data-toggle="tab">XML</a></li>
+            <li class="active"><a href="#source-view" role="tab" data-toggle="tab">Mule App</a></li>
+            <li><a href="#source-xml" role="tab" data-toggle="tab">XML</a></li>
         </ul>
     </div>
 
     <!-- Tab panes + Panel body -->
     <div class="panel-body tab-content no-padding">
-        <div class="tab-pane in active fade no-padding" id="home">
+        <div class="tab-pane in active fade no-padding" id="source-view">
 ++++
 image::source-example.png[width="600"]
 ++++
         </div>
-        <div class="tab-pane fade no-padding" id="profile">
+        <div class="tab-pane fade no-padding" id="source-xml">
 ++++
 
 [source,xml,indent=0]
@@ -58,3 +58,7 @@ include::{resourcesDir}/mule-app/source-example.xml[]
     </div>
 </div>
 ++++
+
+See:
+
+* http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#_testing_inbound_endpoints_sources[Testing Inbound Enppoints(@Source)].

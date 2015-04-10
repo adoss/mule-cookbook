@@ -4,15 +4,12 @@
 :author: MuleSoft Inc.
 :toc: left
 :icons: font
-:numbered:
 :website: http://mulesoft.org/
 :muleJerveyVersion: 2.11
-:toclevels: 2
+:toclevels: 1
 :title: Cookbook Tutorial - MuleSoft
 
 = Anypoint Studio Devkit
-
-= Tutorial
 
 include::introduction.adoc[]
 
@@ -316,7 +313,12 @@ So..what just happened?
 * The operation was executed and the payload now is the result of that operation
 * We retrieve the payload, cast it to what we know the result is and started making the relevant assertions.
 
-To go deeper into our testing best practices please read the full http://www.mulesoft.org/documentation/display/current/Developing+DevKit+Connector+Tests[testing documentation].
+See:
+
+* Adding http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#functional_tests_automation[Functional Tests Automation].
+
+* http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#_generating_functional_tests[Generating Functional Tests].
+
 
 include::errorHandling.adoc[]
 

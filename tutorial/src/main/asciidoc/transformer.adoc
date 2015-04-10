@@ -32,6 +32,7 @@ Show how it is used with auto discovery
 
 Show how it is used explicitly
 
-==== Test my @Transformer
+See:
 
-// TODO
+* http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#_transformers[Testing your Transformer].
+

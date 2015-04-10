@@ -1,4 +1,4 @@
-:mule: Mule Cook Book
+:mule: Mule Cookbook
 
 == Adding DataSense
 
@@ -210,6 +210,10 @@ image::datasense-dynamic-xml.png[width="900"]
 After we add a datamapper in the middle we can see that the input and output is the one we described.
 
 image::datasense-dynamic-datamapper.png[width="900"]
+
+See:
+
+* http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#_datasense_dynamic_metadata[Testing Dynamic DataSense.]
 
 Check the full link:{resourcesDir}/java/v6/DataSenseTestCases.java[source code].
 
