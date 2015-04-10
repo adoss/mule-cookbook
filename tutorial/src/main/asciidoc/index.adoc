@@ -14,22 +14,11 @@
 
 = Anypoint Studio Devkit
 
+include::features-covered.adoc[]
+
 include::introduction.adoc[]
 
 include::requirements.adoc[]
-
-== What is a Connector?
-
-A MuleSoft connector is a reusable component that interacts with Mule ESB and  Anypoint Studio. A connector enables Mule flows to communicate with a target resource. The connector conveys data between a resource and a Mule flow, and transforms the data into a Mule Message.
-
-Using Anypoint Connector DevKit, a connector abstracts developers from the Mule interfaces that are required to run the connector in the Mule platform, and generates a user interface.
-
-A connector also abstracts users from the complexity of initializing required elements such as connecting to a sandbox. A well-developed connector makes Mule apps much simpler for users by handling internal tasks like pagination, session expirations, and input and output metadata. This tutorial shows you how to create a well-developed connector.
-
-For information on setup and DevKit, see
-http://www.mulesoft.org/documentation/display/current/Setting+Up+Your+Dev+Environment[Setting up Your Dev Environment] and  http://www.mulesoft.org/documentation/display/current/Anypoint+Connector+DevKit[Anypoint Connector DevKit].
-
-include::features-covered.adoc[]
 
 include::service-description.adoc[]
 
@@ -102,7 +91,7 @@ Since the {tutorial} service description says we don't need any kind of authenti
 +
 image:new1.png[width="550"]
 +
-Add our client dependency so that we can use it in our connector.
+Add our client dependency so that we can use it in our connector. This way we can use a Java API built to connect to the {tutorial}.
 +
 In your pom.xml file add:
 +
@@ -112,7 +101,7 @@ In your pom.xml file add:
   <dependency>
     <groupId>org.mule.tools.devkit.cookbook</groupId>
     <artifactId>sdk-client</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </dependency>
 </dependencies>
 ----
@@ -162,7 +151,7 @@ include::{resourcesDir}/java/v2/CookBookConnector.java[]
 * *@Connect* - Initialize the client, and if you don't have a login, call the API to verify.
 * *@Disconnect* - Release any connection if required.
 * *@ValidateConnection* - Check that your connection is alive.
-* *@ConnectionIdentifier* - Return a dummy value currently.
+* *@ConnectionIdentifier* - Return String value. This will only be used when debugging.
 +
 Our @ConnectionStrategy is:
 +
@@ -231,6 +220,7 @@ private String  optionalField;
 /**
  * Optional parameter
  */
+@Processor
 public String sayHi(String firstName,@Optional String lastName ) {
     return "Hi "+firstName+" "+((lastName==null) ? "":lastName);
 }
@@ -258,6 +248,7 @@ private String  greeting;
 /**
  * Default parameter
  */
+@Processor
 public String sayHi(String firstName,@Default("Unknown") String lastName ) {
     return greeting+" "+firstName+" "+lastName;
 }

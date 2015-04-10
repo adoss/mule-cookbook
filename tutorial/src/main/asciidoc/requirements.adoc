@@ -17,6 +17,9 @@ You can develop a connector using Windows, Mac, or Linux.
 
 WARNING: JRE is not suited for development, you need to have a JDK installed.
 
+For information on setup and DevKit, see
+http://www.mulesoft.org/documentation/display/current/Setting+Up+Your+Dev+Environment[Setting up Your Dev Environment] and  http://www.mulesoft.org/documentation/display/current/Anypoint+Connector+DevKit[Anypoint Connector DevKit].
+
 == Import the Cookbook
 
 To import the cookbook tutorial from Git:
@@ -38,3 +41,4 @@ mvn install eclipse:eclipse
 ----
 +
 . When done, in Anypoint Studio, import the root project as an existing project with the *File* > *Import* > *General* > *Existing Projects into Workspace* commands.
+

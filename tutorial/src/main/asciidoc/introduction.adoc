@@ -12,3 +12,11 @@ Here are several scenarios in which you may want to build your own connector:
 * The API you consume supports Pagination, Batch, and/or has a SQL capability.
 * The API you consume has different entity types and/or its structure can change.
 * You want to extend Mule core.
+
+== What is a Connector?
+
+A MuleSoft connector is a reusable component that interacts with Mule ESB and  Anypoint Studio. A connector enables Mule flows to communicate with a target resource. The connector conveys data between a resource and a Mule flow, and transforms the data into a Mule Message.
+
+Using Anypoint Connector DevKit, a connector abstracts developers from the Mule interfaces that are required to run the connector in the Mule platform, and generates a user interface.
+
+A connector also abstracts users from the complexity of initializing required elements such as connecting to a sandbox. A well-developed connector makes Mule apps much simpler for users by handling internal tasks like pagination, session expirations, and input and output metadata. This tutorial shows you how to create a well-developed connector.
