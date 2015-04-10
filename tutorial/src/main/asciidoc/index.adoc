@@ -1,12 +1,13 @@
+:doctype: book
 :imagesdir: ./images
 :resourcesDir: resources
-:tutorial: Mule Cookbook
+:tutorial: Cookbook
 :author: MuleSoft Inc.
 :toc: left
 :icons: font
 :website: http://mulesoft.org/
 :muleJerveyVersion: 2.11
-:toclevels: 1
+:toclevels: 2
 :title: Cookbook Tutorial - MuleSoft
 
 = Anypoint Studio Devkit
@@ -15,19 +16,15 @@ include::introduction.adoc[]
 
 include::requirements.adoc[]
 
-include::installPlugin.adoc[]
+== What is a Connector?
 
-= Build Your Connector
+A MuleSoft connector is a reusable component that interacts with the Mule ESB and  Anypoint Studio. A connector enables Mule flows to communicate with a target resource. The connector conveys data between a resource and a Mule flow, and transforms the data into a Mule Message.
 
-== What is a Connector
+Using Anypoint Connector DevKit, a connector abstracts developers from the Mule interfaces required to run the connector in the Mule platform, and handles the generation of a user interface.
 
-A @Connector is a reusable component that knows how to interact with Mule, and with Anypoint Studio. 
+A connector also abstracts users from the complexity of initializing required elements such as connecting to a sandbox. A well-developed connector makes Mule apps much simpler by handling internal tasks like pagination, session expirations, or input and output metadata. This tutorial shows you how to create a well-developed connector.
 
-From the developer point of view, it abstracts them from Mule interfaces required run in the platform, and the generation of the UI.
-
-For the users, it abstracts them from the complexity of initializing any required element (connecting to a sandbox for example). A well developed connector makes your Mule apps much more simple by handling internally things like pagination, session expirations or input and output meta data. 
-
-For a quick overview of the Anypoint Studio DevKit Plugin and how to create a basic Connector check the documentation.
+For a quick overview of the Anypoint Studio DevKit Plugin and how to create a basic Connector, see http://www.mulesoft.org/documentation/display/current/Setting+Up+Your+Dev+Environment[Setting up Your Dev Environment] and  http://www.mulesoft.org/documentation/display/current/Anypoint+Connector+DevKit[Anypoint Connector DevKit].
 
 include::features-covered.adoc[]
 
@@ -35,69 +32,77 @@ include::service-description.adoc[]
 
 == Building a Connector
 
-Before start consuming our {tutorial} service, lets start by doing a Hello World Connector, and understanding the generated code.
+Before starting our {tutorial} service, let's start by creating a Hello World Connector, and reviewing its generated code.
 
-. Click *File* > *New*, then select *Anypoint Connector Project* or simple do a right click of the package explorer and select *New* > *Anypoint Connector Project*:
+To create the Hello World connector:
+
+. In Anypoint Studio, click *File* > *New* > *Anypoint Connector Project* or right-click your project name in package explorer and click *New* > *Anypoint Connector Project*:
 +
 image::new-connector-1.png[width="500"]
 +
-. Just put the name of your connector and click on finish:
+. Specify the name of your connector and click *Finish*:
 +
 image::new-connector-2.png[width="500"]
 +
-This generates a project containing the structure with all the required elements such as images, sample docs, and some basic tests for your connector.
+This generates a project containing the structure and all required elements such as images, sample docs, and basic tests for your connector.
 +
-image::new-connector-3.png[width="600"]
+image::new-connector-3.png[width="800"]
 +
-. To enable the DevKit view select from the top bar *Window* > *Show view* > *Other* , and look for DevKit on the list.
+. Enable the DevKit view by clicking from the top bar *Window* > *Show view* > *Other*, and look for DevKit on the list.
 +
 image::enable-view.png[width="300", height="400"]
 
-=== Understanding the a Connector Structure
 
-Your Connector basically consists of a set of http://www.mulesoft.org/documentation/display/current/Message+Processors[message processors] and configurable elements users populate in order to consume the API your connector was developed for.
+=== Connector Structure
 
-After you install your connector by right-clicking the connector and clicking *Anypoint Connector* > *Install or Update*, completing the prompts, and restarting Studio, you will be able to properly open the Mule application that is being used in the connector test that was generated for your connector.
+Your connector initially consists of a set of message processors and configurable elements that users populate in Anypoint Studio to consume the API your connector was developed for.
 
-Lets check the structure of this dummy connector:
+The DevKit makes it easy to install a connector in Studio. After you install your connector in Studio, users can search for the connector and drag it into a Mule flow.
 
-In this image you will be able to see how most of the code is mapped into UI elements.
+Installing only requires right-clicking the name of the connector in Studio's Package Explorer, and clicking *Anypoint Connector* > *Install or Update*, completing the prompts, and restarting Studio.
+
+When you first create your connector using *File* > *New* > *Anypoint Connector Project*, DevKit creates a skeleton connector.
+
+Let's check the structure of this skeleton connector.
+
+In this image you can see how most of the code maps into UI elements.
 
 // TODO: Use 2 images of screenshots with the default layout
 
-image::split-1-high.png[caption="Figure 1: ", title="View Structure and UI", alt="Image1", width="500", height="200", link="images/split-1-high.png"]
+image::split-1-high.png[caption="Figure 1: ", title="View Structure and UI", alt="Image1", width="800", link="images/split-1-high.png"]
 
-In this one, you can check how the code matches to XML and other UI elements.
+In this example, you can check how the code matches to XML and other UI elements.
 
 // TODO: Use 2 images of screenshots with the default layout
 
-image::split-2-high.png[caption="Figure 2: ", title="View configuration and XML", alt="Image2", width="500", height="200", link="images/split-2-high.png"]
+image::split-2-high.png[caption="Figure 2: ", title="View configuration and XML", alt="Image2", width="800", link="images/split-2-high.png"]
 
-=== Connecting to my service
+=== Connecting to a Service
 
-When consuming a service there you may need to configure different values in order to establish a connection. 
+When consuming a service, you may need to configure different values to establish a connection.
 
-To solve this, the DevKit provides a pair of annotations that allows developer to modularize in one class the behaviour exposed to the users (using the @Connector annotation) and in a different one the code related to the connection.
+To solve this, the DevKit provides a pair of annotations that let you
+modularize in different classes the behavior you expose to users, using the @Connector annotation, and in a different class the code related to the connection using @ConnectionStrategy.
 
-By marking a field with @ConnectionStrategy the DevKit will make sure that you have an initialized object set when the Mule app is running and a request is made to your connector.
+When you mark a field with @ConnectionStrategy, DevKit ensures that you have an initialized object set when the Mule app runs and that requests are made to your connector.
 
-At this point there is no need for authentication and/or connection management but you need to configure some things, so we will create a class marked with @Configuration.
+If there is no need for authentication and/or connection management, but you need users to configure parameters, mark your connection strategy class with @Configuration.
 
-If you actually need an authentication there are several annotations that will help you achieve the desired behaviour as we will see in this tutorial.
+If you need authentication, other annotations in this tutorial help you achieve this behavior.
 
-To go deeper into this feature, check the http://www.mulesoft.org/documentation/display/current/Authentication[current documentation].
+For more information, see  http://www.mulesoft.org/documentation/display/current/Authentication[Authentication].
 
-Let start coding and create a connector that allows us to get the recently added elements.
+Let's start coding and create a connector that allows you to get the recently added elements.
 
-Since the {tutorial} service description says we don't need any kind of authentication to consume the recently added recipies, this is the best operation we can use to start learning how to build our @Connector.
+Since the {tutorial} service description says we don't need any kind of authentication to consume the recently added recipes, this is the best operation we can use to start learning how to build our @Connector.
 
 . Create a new Anypoint Connector Project with the following configuration and don't forget to uncheck the default generation:
 +
-image:new1.png[width="500"]
+image:new1.png[width="700"]
 +
-After that lets add our client dependency so that we can use it in our connector.
+Add our client dependency so that we can use it in our connector.
 +
-. In your pom.xml add:
+In your pom.xml add:
 +
 [source,xml,indent=0]
 ----
@@ -110,97 +115,99 @@ After that lets add our client dependency so that we can use it in our connector
 </dependencies>
 ----
 
-==== Initialize the Connector
+==== Initializing the Client Without Authentication
 
-We need to initialize the client before consuming the service.
+While we don't need to authenticate against our sandbox, we still need to initialize the client before consuming the service.
 
-Anypoint Connectors can be fully aware of http://www.mulesoft.org/documentation/display/34X/Integrating+Connectors+with+the+Mule+Lifecycle[Mule's lifecycle] without implementing any Mule specific interface.
+Anypoint connectors can be fully aware of Mule's lifecycle without implementing any Mule-specific interface. There is an annotation method for each of the four phases of Mule lifecycle. When a method is annotated with one of these annotations, DevKit invokes the method during the Mule lifecycle phase that the annotation represents.
 
-. Use the @Start to initialize our client.
+To initialize a client:
+
+. Use @Start to initialize our client.
 +
 [source,java]
 ----
 include::{resourcesDir}/java/v1/CookBookConnector.java[lines=30..35]
 ----
-Check the full link:{resourcesDir}/java/v1/CookBookConnector.java[source code] to where @Start fits in.
++
+. Check the full link:{resourcesDir}/java/v1/CookBookConnector.java[source code].
 
-If you want, you can continue and directly implement your connector with connection management, if not, just go to the add your first <<configurable,configurable>>.
+If you want, you can continue and directly implement your connector with connection management, if not, go to the add your first <<configurable,configurable>>.
 
 ==== Using Connection Management
 
-Almost all requests  requires that we sent a token on each request.
+Unlike the *getRecentlyAdded* call that doesn't need for us to be authenticated, all other operations require that you set a token on each request.
 
-The client we are using provides a login call that will initialize the token and use it in subsequent requests.
+The client we are using provides a login call that initializes the token and uses it in subsequent requests.
 
-But now also, we have to take into account that our session could expire, and we will need to make a login request again.
+*Note*: Take into account that our session can expire and cause us to make a login request again.
 
-DevKit provides a different set of annotations that will help us keep our code clean, and handle the connection in a different class delegating responsibilities.
+DevKit provides a different set of annotations to keep our code clean and handle the connection in a different class for delegating responsibilities.
 
-We are going to implement a @ConnectionManagement.
+To implement @ConnectionManagement:
 
-Instead of using the @Start annotation as we did before, we will move the initialization to this @ConnectionManagement.
-
-We need to implement 4 methods:
-
-* *@Connect:* Here you need to initialize the client, and also if you don't have a login, you should make a call to the API to verify
-* *@Disconnect:* Release any connection if required.
-* *@ValidateConnection:* This method should check your connection is alive.
-* *@ConnectionIdentifier:* This method just return a dummy value currently.
-
-After our @Connector looks like this:
-
+. Instead of using the @Start annotation as we did before, we move the initialization to  @ConnectionManagement.
+. Implement these four methods:
++
+* *@Connect* - Initialize the client, and if you don't have a login, call the API to verify.
+* *@Disconnect* - Release any connection if required.
+* *@ValidateConnection* - Check that your connection is alive.
+* *@ConnectionIdentifier* - Return a dummy value currently.
++
+Our @Connector now looks like:
++
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v2/CookBookConnector.java[]
 ----
-
-And our @ConnectionStrategy like this:
++
+Our @ConnectionStrategy is:
++
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[]
 ----
 
-But if we try to run our tests, now we will see that the test while fail with a SAXParseException. because we need to add username and password to our configuration now.
+If we try to run our tests, now we see that the test fails with a SAXParseException because we need to add a username and password to our configuration.
 
-===== Testing Connection is Working
+===== Testing That a Connection Works
 
-Testing our connection management needs for us to do some low level coding, but is it still clear how to do it.
+Testing our connection management requires low level coding.
 
-We will use the mule context and the registry to get our hands in our config elements, wrapper in a Testable Object, so that we can run our @Connect method.
+We use the Mule context and the registry to work with our config elements, and create a wrapper in a Testable Object, so that we can run our @Connect method.
 
-In our mule app, we just need to add a configuration that has bad credentials.
+In our Mule app, we just need to add a configuration that has bad credentials.
 
-The we just execute the test and make the assertions.
+Then we execute the test and make the assertions.
 
 image::connectivityTest.png[width="600"]
 
-==== Using OAuthV2
+// ==== Using OAuthV2
 
 // TODO: Sample with OAuthV2
 
-Use v1 to show how to implement OAuthV2 in your connector
+// Use v1 to show how to implement OAuthV2 in your connector
 [[configurable]]
-=== Adding configurable fields
 
-Adding configurable fields is also easy with the plugin since there are a couple of templates ready for you to use.
+=== Adding Configurable Fields
 
-Just type "conf" at the editor of your @Connector or your connection strategy and use Ctrl + Space bar to display the templates.
+Adding configurable fields is also easy with the plugin since DevKit provides templates ready for you to use.
+
+In Studio, type *conf* at the editor of your connector or your connection strategy and use Ctrl+Space to display the templates.
 
 image::config1.png[width="600"]
 
-In our case, lets at a configurable field in our @Configuration component with a default value for the endpoint our client will connect to.
-
-This way we will allow users to connect to different sandboxes.
+Let's add a configurable field in our @Configuration component with a default value for the endpoint our client connects to so that users can connect to different sandboxes.
 
 image::config2.png[width="600"]
 
-We are now ready to add our first processor. If you want a little more details about configurable fields, continue reading. If not, lets just go to add our <<processor,processor>>.
+We are now ready to add our first processor. If you want more details about configurable fields, continue reading. If not, go to add our <<processor,processor>>.
 
-==== @Optional
+==== @Optional Method
 
-Optional parameters or configurable ones, as the name states, are elements that are not required, and there for, there is no need for users to specify a value.
+Optional parameters or configurable ones are elements that are not required, and therefore, there is no need for users to specify a value.
 
-Configurable fields can be specified inside @Connector or Connection Strategies Classes, or as parameters of @Processor methods inside a @Connector.
+You can specify configurable fields inside an @Connector or connection strategies classes, or as parameters of @Processor methods inside a @Connector.
 
 [source,java]
 ----
@@ -255,27 +262,28 @@ public String sayHi(String firstName,@Default("Unknown") String lastName ) {
 
 Another very important use of the @Default annotation is when building a connector that has DataSense.
 [[processor]]
-=== Adding operations to my @Connector (@Processor)
 
-To add a processor simply type "proc" at the editor and use Ctrl + Space bar to display the templates and pick the simple processor.
+=== Adding Operations to an @Connector (@Processor)
+
+To add a processor simply type *proc* at the editor and use Ctrl+Space to display the templates and pick the simple processor.
 
 image::processor1.png[width="600"]
 
-Lets change it to reflect the getRecentlyAdded method signature, and there we have..our first connector, ready to be tested.
+Let's change it to reflect the +getRecentlyAdded+ method signature, and there we have our first connector, ready to be tested.
 
 image::processor2.png[width="600"]
 
-==== Adding samples to your connector
+==== Adding Samples to Your Connector
 
-Lets now add the example for it.
+Let's now add the example for it.
 
 First create the file pointed by the *{@sample ...}*
 
-NOTE: When you add an example, the name provided here is the name that narrows the example in the file. Inside of it you have to put an example of the @Processor.
+*Note*: When you add an example, use the same name as the name that narrows the example in the file. Inside of it you have to put an example of the @Processor.
 
-If you have the Javadoc check enabled, DevKit plugin will mark the missing example as an error and provide a quick fix for us to easily add the example.
+If you have the Javadoc check enabled, DevKit plugin marks the missing example as an error and provide a quick fix for us to easily add the example.
 
-Otherwise, open the file and type "<" at the editor and use Ctrl + Space bar to display the templates and pick the one that best suite our operation.
+Otherwise, open the file and type *<* at the editor and use Ctrl+Space to display the templates and pick the one that best suite our operation.
 
 image::sample1.png[width="600"]
 
@@ -290,7 +298,7 @@ Our example in this case looks like this:
 
 === Testing your @Processor
 
-In order to test our @Processor, lets start by generating the required files for us to test the operation, as if it was being used inside a mule application.
+To test your @Processor, let's start by generating the required files for us to test the operation, as if it was being used inside a Mule application.
 
 Right click the root of your project and select *Anypoint Connector > Generate Tests*.
 
@@ -308,7 +316,7 @@ image::generate-tests2.png[width="600"]
 
 So..what just happened?
 
-* We run a mule app that contains one simple flow with the xml that represents our operation.
+* We run a Mule app that contains one simple flow with the xml that represents our operation.
 * A connector instance was created and using our configuration, it connected to the server.
 * The operation was executed and the payload now is the result of that operation
 * We retrieve the payload, cast it to what we know the result is and started making the relevant assertions.
@@ -334,7 +342,7 @@ include::debug.adoc[]
 
 include::documenting.adoc[]
 
-== Sharing my @Connector
+== Sharing My @Connector
 
 Connector, as a component that can be installed in Anypoint Studio, is an Update Site.
 
@@ -342,7 +350,7 @@ Update Sites are used to organize and export features so they can be installed i
 
 When the site is built, the included features (along with all plug-ins part of those features) will be exported into an installable form. The exported plug-ins and features will be put into two folders "plug-ins" and "features". Two other files, "content.xml" and "artifacts.xml" will also be generated and contain metadata for the exported files that make installing easier. These files, along with "site.xml", collectively form an Eclipse update site. To make the update site available to others you must make all these files available in a shared directory or web site.
 
-When building a connector, DevKit generates this for you, so that you don't need to worry about generating this. 
+When building a connector, DevKit generates this for you, so that you don't need to worry about generating this.
 
 You can use the Anypoint DevKit plugin to either install the connector on your current Studio, or export it as an update-site for others to use.
 
@@ -362,14 +370,14 @@ Show how to change the display name of the @Connector
 
 ==== Using @Password
 
-When using the @Password in a @Connect parameters, you will generate in the UI a masked input field.
+When using the @Password in a @Connect parameters, generate in the UI a masked input field.
 
 [source,java]
 ----
 include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[lines=50..53]
 ----
 
-In Studio this is translated into:
+In Studio this translates into:
 
 image::password.png[width="500"]
 
@@ -377,9 +385,9 @@ image::password.png[width="500"]
 
 //TODO
 
-== I have an API to build the @Connector
+== I Have an API to Build My Connector
 
-API are exposed in several ways, and in order to start using it you need to do setup different things before using it inside your connector.
+APIs are exposed in several ways. To start using your API, set up different things before using it inside your connector.
 
 === SDK Client
 
@@ -402,9 +410,9 @@ For example in our case, to consume the SDK for the Cookbook we can add the depe
 
 If you have a wsdl, the easiest way to build a connector is to create a client using cxf http://cxf.apache.org/docs/wsdl-to-java.html[wsdl2java].
 
-You can configure the cxf goal in your pom.xml, very easily. The full documentation can by founded at http://cxf.apache.org/docs/maven-cxf-codegen-plugin-wsdl-to-java.html[cxf site].
+You can configure the CXF goal in your pom.xml file very easily. The full documentation is at the Apache  http://cxf.apache.org/docs/maven-cxf-codegen-plugin-wsdl-to-java.html[CXF site].
 
-For example in your pom.xml you can add this (plus all the dependencies required) :
+For example in your pom.xml file, you can add the following plus all required dependencies:
 [source,xml,indent=0]
 ----
 <build>
@@ -416,7 +424,7 @@ For example in your pom.xml you can add this (plus all the dependencies required
       <version>${cxf.version}</version>
       <executions>
         <execution>
-          <phase>clean</phase> <!-- This is so it work with the Devkit -->
+          <phase>clean</phase> <!-- This is so it work with the DevKit -->
           <goals>
             <goal>wsdl2java</goal>
           </goals>
@@ -438,7 +446,7 @@ For example in your pom.xml you can add this (plus all the dependencies required
          </execution>
       </executions>
       <dependencies>
-        <!-- Boolean getters -->
+        <!-- Boolean Getters -->
         <dependency>
           <groupId>org.apache.cxf.xjcplugins</groupId>
           <artifactId>cxf-xjc-boolean</artifactId>
@@ -456,12 +464,12 @@ For example in your pom.xml you can add this (plus all the dependencies required
 </build>
 ----
 
-If you use the DevKit plugin it will generate everything for you to get started, you just need to specify the wsdl location.
+If you use the DevKit plugin it generates everything for you to get started, you just need to specify the WSDL location on your computer.
 
 === REST API
-In this case, you have to write the request using any library that helps you make HTTP Requests.
+Write the request using any library that helps you make HTTP Requests.
 
-We recommend using Jersey {muleJerveyVersion} since it is the one provided by mule (since 3.6.0).
+We recommend using Jersey {muleJerveyVersion}, which is provided in Mule version 3.6.0 and later.
 [source,xml,indent=0]
 ----
 <dependencies>
@@ -474,7 +482,7 @@ We recommend using Jersey {muleJerveyVersion} since it is the one provided by mu
 </dependencies>
 ----
 
-To make for example a GET Request you can do the following:
+Example GET request:
 [source,java,indent=0]
 ----
 ClientConfig clientConfig = new ClientConfig();
@@ -492,11 +500,11 @@ Response response = invocationBuilder.get();  // # <5>
 System.out.println(response.getStatus());
 System.out.println(response.readEntity(String.class));
 ----
-<1> - At this point we have a client ready to make a request to URL http://example.com/rest
-<2> - We add some paths. It looks like http://example.com/rest/resource/helloworld
-<3> - We configure a query param. It looks like http://example.com/rest/resource/helloworld?greeting=Hi+World%21
-<4> - We specify we want the reply in JSON format
-<5> - We make a GET request
+<1> - The client is ready to make a request to URL http://example.com/rest
+<2> - Add paths for http://example.com/rest/resource/helloworld
+<3> - Configure a query param. It looks like http://example.com/rest/resource/helloworld?greeting=Hi+World%21
+<4> - Specify we want the reply in JSON format
+<5> - Make a GET request
 
 
-If you want more information visit the https://jersey.java.net/documentation/latest/client.html[jersey client] documentation.
+For more information, see the https://jersey.java.net/documentation/latest/client.html[Jersey client] documentation.

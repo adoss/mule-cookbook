@@ -1,16 +1,15 @@
 == Adding Batch
 
-=== What is it?
+=== What is Batch?
 
 TODO
 
-=== Implement it in your connector
+=== Implementing Batch in a Connector
 
 TODO
 
-Add batch to the operations that handle list of elements
+Add batch to the operations that handle list of elements.
 
-=== Testing it
+=== Testing Batch
 
 TODO
-

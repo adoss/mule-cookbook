@@ -1,14 +1,13 @@
-== Features to cover in tutorial
+== Features in Tutorial
 
-In this tutorial we are going to  incrementally show you how to add value and simplify the connectors users interaction in Mule with the different features provided by DevKit.
-We are going to start by generating a simple @Connector for a web service.
+In this tutorial we show you how to add value and simplify a connector that users can interact with in Mule. We also describe the different features provided by the Anypoint Connector DevKit.
 
-After that we will show you how to add configurable field (@Configurable) that will be used in our @Processor, and how to test it.
-Then we are going to show you how to enrich the errors returned by an API and how to make sure your users don't need to handle session expirations.
+We start by generating a simple @Connector for a web service.
 
-As we understand more about the API being consumed, we will show you why we need to add DataSense to your connector and how it improves user experience.
-Having DataSense also allow you to use our DataSense Query Language (DSQL).
+After that, we show you how to add fields that users can configure in Anypoint Studio with the @Configurable annotation that you put in your connector's @Processor method, and how to test these fields. For a full list of supported annotations, see the http://www.mulesoft.org/documentation/display/current/Annotation+Reference[Annotation Reference].
 
-Other important feature that most APIs support is the Pagination of results, as well as the Batch processing
+Then we show you how to enrich the errors returned by an API to ensure your users don't need to handle session expirations.
 
-For a full list of Supported annotations check our current documentation.
+As we understand more about the API being consumed, we show you how to add DataSense to your connector and how DataSense improves the user experience of your connector. DataSense also allows you to use the MuleSoft DataSense Query Language (DSQL).
+
+Other important features that most APIs support are the pagination of results, as well as the batch processing.

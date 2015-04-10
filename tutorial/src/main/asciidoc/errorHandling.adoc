@@ -1,8 +1,8 @@
 :resourcesDir: resources
 
-== Improving error Handling
+== Improving Error Handling
 
-=== Exception Handling (@Handler)
+=== Exception Handling with @Handler
 
 The http://www.mulesoft.org/documentation/display/current/Annotation+Reference#AnnotationReference-handleran[@Handler] feature, is a very useful feature when you want to avoid duplicated code when handling exceptions, and also so that your connector code is clean.
 
@@ -24,24 +24,24 @@ include::{resourcesDir}/java/v3/CookBookConnector.java[lines=66..70]
 ----
 Check the full link:{resourcesDir}/java/v3/CookBookConnector.java[source code].
 
-=== How to handle session expiration (@ReconnectOn)
+=== Handling Session Expiration with @ReconnectOn
 
-There is no need for users to add custom code on their mule apps in order to handle session expiration. DevKit provides a mechanism to do this in a clean way.
+There is no need for users to add custom code in their Mule apps to handle session expiration. DevKit provides a mechanism to do this in a clean way.
 
-You just need to annotated your @Processor method with the @ReconnectOn exception.
+Just annotate your @Processor method with the @ReconnectOn exception.
 
 [source,java,indent=0]
 ----
 include::{resourcesDir}/java/v3/CookBookConnector.java[lines=84..88]
 ----
 
-In our mule app we just need to configure a reconnection strategy and our mule app is ready to to handle session expirations.
+In our Mule app, we configure a reconnection strategy and our Mule app is ready to  handle session expirations.
 
-In the UI you can just configured from the Global Config dialog.
+Global Config dialog configuration:
 
-image::reconnect.png[width="900"]
+image::reconnect.png[width="500"]
 
-The XML generated will look like:
+The XML generated looks like:
 [source,xml]
 ----
 <cook-book:config-type doc:name="config" name="config" password="admin" username="admin">

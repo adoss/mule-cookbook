@@ -1,9 +1,9 @@
-== Adding Pagination 
+== Adding Pagination
 
 TODO
 
-A quick example of Pagination with the query operation
+A quick example of Pagination with a query operation.
 
-=== Testing it
+=== Testing Pagination
 
 TODO
