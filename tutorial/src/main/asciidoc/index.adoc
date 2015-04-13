@@ -6,7 +6,7 @@
 :toc: left
 :icons: font
 :website: http://mulesoft.org/
-:muleJerveyVersion: 2.11
+:muleJerseyVersion: 2.11
 :toclevels: 2
 :title: Cookbook Tutorial - MuleSoft
 :source-highlighter: coderay
@@ -466,16 +466,18 @@ If you use the DevKit plugin it generates everything for you to get started, you
 === REST API
 Write the request using any library that helps you make HTTP Requests.
 
-We recommend using Jersey {muleJerveyVersion}, which is provided in Mule version 3.6.0 and later.
+We recommend using Jersey {muleJerseyVersion}, which is provided in Mule version 3.6.0 and later.
+
+To make sure you always use the right version, add the following dependency.
 [source,xml,indent=0]
 ----
 <dependencies>
-  <dependency>
-    <groupId>org.glassfish.jersey.core</groupId>
-    <artifactId>jersey-client</artifactId>
-    <version>{muleJerveyVersion}</version>
-    <scope>provided</scope>
-  </dependency>
+    <dependency>
+        <groupId>org.mule.modules</groupId>
+        <artifactId>mule-module-jersey</artifactId>
+        <version>${mule.version}</version>
+        <scope>provided</scope>
+    </dependency>
 </dependencies>
 ----
 
