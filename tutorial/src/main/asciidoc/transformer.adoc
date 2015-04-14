@@ -27,13 +27,89 @@ include::{resourcesDir}/java/v6/CookBookConnector.java[lines=162..169]
 
 ==== Using Your Transformer in a Mule App
 
-To use your transformer, just drag and drop it from the palette.
+To use your transformer, just drag and drop it from the palette and build a flow.
 
-image::transformer/transformer.png[width="600"]
+* Here we are using it explicitly to map transform the recipes into a Map.
 
-// Show how it is used with auto discovery
+++++
+<div class="panel panel-default no-padding">
+    <div class="panel-heading no-padding">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#transformer-view" role="tab" data-toggle="tab">Mule App</a></li>
+            <li><a href="#transformer-xml" role="tab" data-toggle="tab">XML</a></li>
+        </ul>
+    </div>
 
-// Show how it is used explicitly
+    <!-- Tab panes + Panel body -->
+    <div class="panel-body tab-content no-padding">
+        <div class="tab-pane in active fade no-padding" id="transformer-view">
+++++
+image::transformer/transformer-explicit.png[width="600"]
+++++
+        </div>
+        <div class="tab-pane fade no-padding" id="transformer-xml">
+++++
+
+[source,xml,indent=0]
+----
+include::{resourcesDir}/mule-app/transformer-example.xml[]
+----
+
+++++
+        </div>
+    </div>
+</div>
+++++
+
+
+* Transformers can also be used implicitly as long as only one transformer is found to resolve the type.
+
+. Define another transformer that can transform Recipe object into Map<String,Object>
++
+[source,java,indent=0]
+----
+include::{resourcesDir}/java/v8/CookBookConnector.java[lines=251..259]
+----
++
+. Install the connector.
++
+. In your mule app create a flow that takes the first item of the list and add an update operation after it. Don't use the transformer.
++
+++++
+<div class="panel panel-default no-padding">
+    <div class="panel-heading no-padding">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="active"><a href="#transformer2-view" role="tab" data-toggle="tab">Mule App</a></li>
+            <li><a href="#transformer2-xml" role="tab" data-toggle="tab">XML</a></li>
+        </ul>
+    </div>
+
+    <!-- Tab panes + Panel body -->
+    <div class="panel-body tab-content no-padding">
+        <div class="tab-pane in active fade no-padding" id="transformer2-view">
+++++
++
+image::transformer/transformer-implicitly.png[width="600"]
++
+++++
+        </div>
+        <div class="tab-pane fade no-padding" id="transformer2-xml">
+++++
++
+[source,xml,indent=0]
+----
+include::{resourcesDir}/mule-app/transformer2-example.xml[]
+----
++
+++++
+        </div>
+    </div>
+</div>
+++++
++
+. Run the example and see that the flow will execute successfully.
 
 See:
 

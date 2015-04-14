@@ -10,13 +10,11 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
-import org.mule.api.MuleException;
 import org.mule.api.annotations.ConnectionStrategy;
 import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.MetaDataScope;
 import org.mule.api.annotations.Paged;
 import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.Query;
 import org.mule.api.annotations.ReconnectOn;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.Transformer;
@@ -233,9 +231,9 @@ public class CookBookConnector {
 	 */
 	@Processor
 	@ReconnectOn(exceptions = { SessionExpiredException.class })
-	@Paged // # <1>
-	public ProviderAwarePagingDelegate<Map<String, Object>, CookBookConnector> queryPaginated( // # <2>
-			final String query, final PagingConfiguration pagingConfiguration) // # <3>
+	@Paged
+	public ProviderAwarePagingDelegate<Map<String, Object>, CookBookConnector> queryPaginated(
+			final String query, final PagingConfiguration pagingConfiguration)
 			throws SessionExpiredException {
 		return new CookbookPagingDelegate(query, pagingConfiguration.getFetchSize());
 	}
@@ -250,6 +248,16 @@ public class CookBookConnector {
 		return result;
 	}
 
+	@Transformer(sourceTypes = { Recipe.class })
+	public static Map<String, Object> recipeToMap(
+			Recipe recipe) {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> result = mapper.convertValue(recipe,
+				new TypeReference<Map<String, Object>>() {
+				});
+		return result;
+	}
+	
 	public ConnectorConnectionStrategy getConnectionStrategy() {
 		return connectionStrategy;
 	}
