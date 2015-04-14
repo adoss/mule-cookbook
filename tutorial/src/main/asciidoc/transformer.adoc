@@ -29,7 +29,7 @@ include::{resourcesDir}/java/v6/CookBookConnector.java[lines=162..169]
 
 To use your transformer, just drag and drop it from the palette.
 
-image::transformer.png[width="600"]
+image::transformer/transformer.png[width="600"]
 
 // Show how it is used with auto discovery
 

@@ -12,7 +12,7 @@ To create we are going to use the GetRecentlyAdded method.
 
 . Inside your @Connector type source and use Ctrl + Space bar to display the templates.
 +
-image::source-template.png[width="600"]
+image::source/source-template.png[width="600"]
 
 . Create a @Source that consumes the Get Recently Updated on the Connector using a callback
 +
@@ -25,7 +25,7 @@ include::{resourcesDir}/java/v7/CookBookConnector.java[lines=68..99]
 
 . On your flow now just drag and drop the Cookbook Connector, and you will see that is automatically while generate a flow.
 +
-image::source-example.png[width="600"]
+image::source/source-example.png[width="600"]
 
 . Add a logger and debug to see that the payload now has your recipes.
 ++++
@@ -42,7 +42,7 @@ image::source-example.png[width="600"]
     <div class="panel-body tab-content no-padding">
         <div class="tab-pane in active fade no-padding" id="source-view">
 ++++
-image::source-debug.png[width="600"]
+image::source/source-debug.png[width="600"]
 ++++
         </div>
         <div class="tab-pane fade no-padding" id="source-xml">

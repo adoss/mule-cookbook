@@ -35,17 +35,17 @@ Let's handle the ingredients:
 
 . Check the input metadata to see that the expected output is a POJO, with the expected fields our Ingredient has:
 +
-image::datasense-expected-ingredients.png[width="600"]
+image::datasense/datasense-expected-ingredients.png[width="600"]
 +
 . Verify that the output metadata is expected:
 +
-image::datasense-ingredients.png[width="600"]
+image::datasense/datasense-ingredients.png[width="600"]
 +
 . Drag and drop a DataMapper either behind or after our connector. The DataMapper automatically picks the input or output:
 +
-image::datasense-datamapper.png[title="DataMapper Receiving Connector Output", width="600"]
+image::datasense/datasense-datamapper.png[title="DataMapper Receiving Connector Output", width="600"]
 +
-image::datamapper-output1.png[title="DataMapper Setting Connector Input",width="900"]
+image::datasense/datamapper-output1.png[title="DataMapper Setting Connector Input",width="900"]
 +
 Because DevKit auto-generates static metadata, DevKit automatically ensures that your connector knows how to propagate metadata information.
 
@@ -68,17 +68,17 @@ Let's see how this affects the UI and user experience.
 +
 Studio, can no longer determine input or output type:
 +
-image::ref-only-input.png[title="Connector Input with @RefOnly",width="900"]
+image::datasense/ref-only-input.png[title="Connector Input with @RefOnly",width="900"]
 +
-image::ref-only-output.png[title="Connector Output with Abstract Class",width="900"]
+image::datasense/ref-only-output.png[title="Connector Output with Abstract Class",width="900"]
 +
 Even if DataMapper is not automatically populated with the type:
 +
-image::ref-only-datamapper.png[title="DataMapper with connector with @RefOnly parameter",width="900"]
+image::datasense/ref-only-datamapper.png[title="DataMapper with connector with @RefOnly parameter",width="900"]
 +
 We are forced to manually configure the input:
 +
-image::manual-datamapper.png[title="Selecting a POJO manually",width="900"]
+image::datasense/manual-datamapper.png[title="Selecting a POJO manually",width="900"]
 
 In the next section we get back our DataMapper-friendly user experience.
 
@@ -132,11 +132,11 @@ include::{resourcesDir}/java/v5/CookBookConnector.java[lines=110..115]
 +
 . Check our new connector looks in Studio. We have a combo after we select the entity type and save it. This automatically refreshes our metadata.
 +
-image::datasense-static.png[width="800"]
+image::datasense/datasense-static.png[width="800"]
 +
 Now even DataMapper knows how to interact with our @Connector:
 +
-image::datasense-static2.png[width="800"]
+image::datasense/datasense-static2.png[width="800"]
 +
 . View connector full source code:
 +
@@ -179,11 +179,11 @@ include::{resourcesDir}/java/v6/CookBookConnector.java[lines=77..92]
 +
 Note that now the UI is a different form than before, because the input is not a map.
 +
-image::datamapper-ui.png[width="900"]
+image::datasense/datamapper-ui.png[width="900"]
 +
 . In our Mule app, we cannot update the metadata and use our connector, and as you can see note that we have a map structure instead of a POJO:
 +
-image::datamapper-map.png[width="900"]
+image::datasense/datamapper-map.png[width="900"]
 
 ==== Testing DataSense
 
@@ -217,15 +217,15 @@ In Studio, we need to configure our connector, and it starts fetching the keys.
 
 After it finishes, we can select the entities in the UI.
 
-image::datasense-dynamic.png[width="800"]
+image::datasense/datasense-dynamic.png[width="800"]
 
 Note that on the XML the value written is the key.
 
-image::datasense-dynamic-xml.png[width="800"]
+image::datasense/datasense-dynamic-xml.png[width="800"]
 
 After we add a DataMapper in the middle, we can see that the input and output is the one we described.
 
-image::datasense-dynamic-datamapper.png[width="900"]
+image::datasense/datasense-dynamic-datamapper.png[width="900"]
 
 Check the full link:{resourcesDir}/java/v6/DataSenseTestCases.java[source code].
 

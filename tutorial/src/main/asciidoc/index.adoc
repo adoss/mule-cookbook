@@ -327,7 +327,7 @@ include::errorHandling.adoc[]
 
 include::datasense.adoc[]
 
-// include::pagination.adoc[]
+include::pagination.adoc[]
 
 // include::batch.adoc[]
 
