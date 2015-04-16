@@ -1,0 +1,49 @@
+[[mutiple-connection-strategies]]
+
+=== Multiple Connection Strategies
+
+If you want to have multiple connection strategies there are two things to take into account:
+
+* All Strategies either need to implement the same interface or have a common parent class.
+* The connector strategy field needs to either the interface o the common parent class.
+
+If your strategies have common fields, they can be defined at a parent class.
+
+In our connector, after the refactor the classes would look like this:
+[plantuml,model,png]
+----
+title Multiple Strategies
+
+ConnectorConnectionStrategy <|-- ConnectionManagementStrategy
+ConnectorConnectionStrategy <|-- OAuthStrategy
+CookBookConnector *- ConnectorConnectionStrategy : connectionStrategy
+
+
+abstract class ConnectorConnectionStrategy {
+- MuleCookBookClient client
+- String endpoint
+}
+
+class CookBookConnector {
+
+}
+
+class ConnectionManagementStrategy {
+}
+
+class OAuthStrategy {
+-String consumerKey
+-String consumerSecret
+-String accessToken
+}
+----
+
+See:
+
+* link:{resourcesDir}/java/v9/CookBookConnector.java[Connector] source code.
+
+* link:{resourcesDir}/java/v9/ConnectorConnectionStrategy.java[Base Connection Strategy] source code.
+
+* link:{resourcesDir}/java/v9/ConnectionManagementStrategy.java[Connection Management Strategy] source code.
+
+* link:{resourcesDir}/java/v9/OAuthStrategy.java[OAuth2 Strategy] source code.

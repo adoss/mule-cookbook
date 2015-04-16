@@ -1,0 +1,48 @@
+==== Using Connection Management
+
+Unlike the *getRecentlyAdded* call that doesn't need for us to be authenticated, all other operations require that you set a token on each request.
+
+The client we are using provides a login call that initializes the token and uses it in subsequent requests.
+
+*Note*: Take into account that our session can expire and cause us to make a login request again.
+
+DevKit provides a different set of annotations to keep our code clean and handle the connection in a different class for delegating responsibilities.
+
+To implement @ConnectionManagement:
+
+. Instead of using the @Start annotation as we did before, we move the initialization to @ConnectionManagement.
++
+Our @Connector now looks like:
++
+[source,java,linenums]
+----
+include::{resourcesDir}/java/v2/CookBookConnector.java[]
+----
++
+. Implement these four methods as shown in the code sample that follows:
++
+* *@Connect* - Initialize the client, and if you don't have a login, call the API to verify.
+* *@Disconnect* - Release any connection if required.
+* *@ValidateConnection* - Check that your connection is alive.
+* *@ConnectionIdentifier* - Return String value. This will only be used when debugging.
++
+Our @ConnectionStrategy is:
++
+[source,java,linenums]
+----
+include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[]
+----
+
+If we try to run our tests, now we see that the test fails with a SAXParseException because we need to add a username and password to our configuration.
+
+===== Testing That a Connection Works
+
+Testing our connection management requires low level coding.
+
+We use the Mule context and the registry to work with our config elements, and create a wrapper in a Testable Object, so that we can run our @Connect method.
+
+In our Mule app, we just need to add a configuration that has bad credentials.
+
+Then we execute the test and make the assertions.
+
+image::connectivityTest.png[width="600"]

@@ -65,7 +65,7 @@ public class CookBookConnector {
 	 * @return List of recently added Ingredients.
 	 *
 	 */
-    @OAuthProtected
+	@OAuthProtected
 	@Processor
 	public List<Recipe> getRecentlyAdded() {
 		return getClient().getRecentlyAdded();
@@ -83,12 +83,12 @@ public class CookBookConnector {
 	 * @throws Exception
 	 *             When the source fails.
 	 */
-    @OAuthProtected
+	@OAuthProtected
 	@Source
 	public void getRecentlyAddedSource(final SourceCallback callback)
 			throws Exception {
 		while (true) {
-			//Our client may not have being initialized yet.
+			//Our client may not have being initialized yet if this is an Oauth Strategy.
             if (getClient() != null) {
                 // Every 5 seconds our callback will be executed
                 getClient().getRecentlyAdded(new ICookbookCallback() {
@@ -124,7 +124,7 @@ public class CookBookConnector {
 	 */
 	@SuppressWarnings("unchecked")
 	@Processor
-    @OAuthProtected
+	@OAuthProtected
 	@OnException(handler = CookBookHandler.class)
 	@ReconnectOn(exceptions = { SessionExpiredException.class })
 	public Map<String, Object> create(
@@ -220,7 +220,7 @@ public class CookBookConnector {
 	 * @throws NoSuchEntityException
 	 */
 	@Processor
-    @OAuthProtected
+	@OAuthProtected
 	@OnException(handler = CookBookHandler.class)
 	@ReconnectOn(exceptions = { SessionExpiredException.class })
 	public void delete(@Default("1") Integer id) throws NoSuchEntityException,
@@ -238,7 +238,7 @@ public class CookBookConnector {
 	 *	@param pagingConfiguration the paging configuration
 	 *	@return return comment
 	 */
-    @OAuthProtected
+	@OAuthProtected
 	@Processor
 	@ReconnectOn(exceptions = { SessionExpiredException.class })
 	@Paged

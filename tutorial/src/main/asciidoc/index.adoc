@@ -125,62 +125,11 @@ include::{resourcesDir}/java/v1/CookBookConnector.java[lines=30..35]
 
 If you want, you can continue and directly implement your connector with connection management, if not, go to the add your first <<configurable,configurable>>.
 
-==== Using Connection Management
+include::connection-management.adoc[]
 
-Unlike the *getRecentlyAdded* call that doesn't need for us to be authenticated, all other operations require that you set a token on each request.
+include::oauth2.adoc[]
 
-The client we are using provides a login call that initializes the token and uses it in subsequent requests.
-
-*Note*: Take into account that our session can expire and cause us to make a login request again.
-
-DevKit provides a different set of annotations to keep our code clean and handle the connection in a different class for delegating responsibilities.
-
-To implement @ConnectionManagement:
-
-. Instead of using the @Start annotation as we did before, we move the initialization to @ConnectionManagement.
-+
-Our @Connector now looks like:
-+
-[source,java,linenums]
-----
-include::{resourcesDir}/java/v2/CookBookConnector.java[]
-----
-+
-. Implement these four methods as shown in the code sample that follows:
-+
-* *@Connect* - Initialize the client, and if you don't have a login, call the API to verify.
-* *@Disconnect* - Release any connection if required.
-* *@ValidateConnection* - Check that your connection is alive.
-* *@ConnectionIdentifier* - Return String value. This will only be used when debugging.
-+
-Our @ConnectionStrategy is:
-+
-[source,java,linenums]
-----
-include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[]
-----
-
-If we try to run our tests, now we see that the test fails with a SAXParseException because we need to add a username and password to our configuration.
-
-===== Testing That a Connection Works
-
-Testing our connection management requires low level coding.
-
-We use the Mule context and the registry to work with our config elements, and create a wrapper in a Testable Object, so that we can run our @Connect method.
-
-In our Mule app, we just need to add a configuration that has bad credentials.
-
-Then we execute the test and make the assertions.
-
-image::connectivityTest.png[width="600"]
-
-// ==== Using OAuthV2
-
-// TODO: Sample with OAuthV2
-
-// Use v1 to show how to implement OAuthV2 in your connector
 [[configurable]]
-
 === Adding Configurable Fields
 
 Adding configurable fields is also easy with the plugin since DevKit provides templates ready for you to use.
@@ -337,7 +286,7 @@ include::debug.adoc[]
 
 // include::documenting.adoc[]
 
-== Sharing My @Connector
+== Sharing My Connector
 
 Connector, as a component that can be installed in Anypoint Studio, is an Update Site.
 
@@ -350,6 +299,8 @@ When building a connector, DevKit generates this for you, so that you don't need
 You can use the Anypoint DevKit plugin to either install the connector on your current Studio, or export it as an update-site for others to use.
 
 == Other Features
+
+include::multiple-connection-strategies.adoc[]
 
 include::source.adoc[]
 
