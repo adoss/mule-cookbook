@@ -15,7 +15,10 @@ You can develop a connector using Windows, Mac, or Linux.
 . Install http://www.mulesoft.org/documentation/display/current/Setting+Up+Your+Dev+Environment#SettingUpYourDevEnvironment-DevKitPlugin[Anypoint DevKit plugin].
 . Install a http://git-scm.com/downloads[GitHub] client.
 
-WARNING: JRE is not suited for development, you need to have a JDK installed.
+[WARNING]
+====
+JRE is not suited for development, you need to have a JDK installed.
+====
 
 For information on setup and DevKit, see
 http://www.mulesoft.org/documentation/display/current/Setting+Up+Your+Dev+Environment[Setting up Your Dev Environment] and  http://www.mulesoft.org/documentation/display/current/Anypoint+Connector+DevKit[Anypoint Connector DevKit].

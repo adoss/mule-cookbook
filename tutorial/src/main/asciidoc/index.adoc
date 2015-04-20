@@ -11,6 +11,7 @@
 :title: Cookbook Tutorial - MuleSoft
 :source-highlighter: coderay
 :coderay-linenums-mode: inline
+:iconsdir: {asciidoc-dir}/{iconsdir}
 
 = Anypoint Studio Devkit
 

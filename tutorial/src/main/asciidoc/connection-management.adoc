@@ -34,7 +34,7 @@ include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[]
 
 If we try to run our tests, now we see that the test fails with a SAXParseException because we need to add a username and password to our configuration.
 
-===== Testing That a Connection Works
+==== Testing That a Connection Works
 
 Testing our connection management requires low level coding.
 

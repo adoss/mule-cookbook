@@ -1,13 +1,5 @@
 == Features in Tutorial
 
-In this tutorial we show you how to create a connector that users can interact with in Mule. We also describe the different features provided by the Anypoint Connector DevKit.
+In this tutorial you will learn how to create a connector, using the DevKit, that users can interact with in Mule and Anypoint Studio.
 
-We start by generating a simple connector for a web service.
-
-After that, we show you how to add fields that users can configure in Anypoint Studio with the @Configurable annotation that you put in your connector's @Processor method, and how to test these fields. For a full list of supported annotations, see the http://www.mulesoft.org/documentation/display/current/Annotation+Reference[Annotation Reference].
-
-Then we show you how to enrich the errors returned by an API to ensure your users don't need to handle session expirations.
-
-As we understand more about the API being consumed, we show you how to add DataSense to your connector and how DataSense improves the user experience of your connector. DataSense also allows you to use the MuleSoft DataSense Query Language (DSQL).
-
-Other important features that most APIs support are the pagination of results, as well as the batch processing.
+As you move forward you will learn the features that DevKit provides to help you build Mule connectors, and how easy it can be to extend Mule.
