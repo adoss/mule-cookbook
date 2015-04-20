@@ -1,4 +1,4 @@
-==== Using Connection Management
+=== Using Connection Management
 
 Unlike the *getRecentlyAdded* call that doesn't need for us to be authenticated, all other operations require that you set a token on each request.
 
@@ -25,9 +25,8 @@ include::{resourcesDir}/java/v2/CookBookConnector.java[]
 * *@Disconnect* - Release any connection if required.
 * *@ValidateConnection* - Check that your connection is alive.
 * *@ConnectionIdentifier* - Return String value. This will only be used when debugging.
-+
+
 Our @ConnectionStrategy is:
-+
 [source,java,linenums]
 ----
 include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[]

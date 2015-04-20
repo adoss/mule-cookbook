@@ -1,4 +1,4 @@
-==== Using OAuthV2
+=== Using OAuthV2
 
 The Server can also provide the token using OAuth 2.0, instead of doing a login request.
 

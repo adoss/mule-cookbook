@@ -99,7 +99,7 @@ In your pom.xml file add:
 ----
 <dependencies>
   <dependency>
-    <groupId>org.mule.tools.devkit.cookbook</groupId>
+    <groupId>com.cookbook.tutorial</groupId>
     <artifactId>sdk-client</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </dependency>
@@ -112,22 +112,21 @@ While we don't need to authenticate against our sandbox, we still need to initia
 
 Anypoint connectors can be fully aware of Mule's lifecycle without implementing any Mule-specific interface. There is an annotation method for each of the four phases of Mule lifecycle. When a method is annotated with one of these annotations, DevKit invokes the method during the Mule lifecycle phase that the annotation represents.
 
-To initialize a client:
-
-. Use @Start to initialize our client.
+. On the @Configuration ConnectionStrategy add a <<configurable,configurable>> field for the address were the {tutorial} service is hosted:
++
+[source,java]
+----
+include::{resourcesDir}/java/v1/ConnectorConnectionStrategy.java[lines=20..25]
+----
++
+. On your Connector use the @Start on a method to initialize the client.
 +
 [source,java,indent=0,linenums]
 ----
 include::{resourcesDir}/java/v1/CookBookConnector.java[lines=30..35]
 ----
 +
-. Check the full link:{resourcesDir}/java/v1/CookBookConnector.java[source code].
-
-If you want, you can continue and directly implement your connector with connection management, if not, go to the add your first <<configurable,configurable>>.
-
-include::connection-management.adoc[]
-
-include::oauth2.adoc[]
+Check the full link:{resourcesDir}/java/v1/CookBookConnector.java[Connector] and link:{resourcesDir}/java/v1/ConnectorConnectionStrategy.java[Strategy] source code.
 
 [[configurable]]
 === Adding Configurable Fields
@@ -144,13 +143,13 @@ image::config2.png[width="600"]
 
 We are now ready to add our first processor. If you want more details about configurable fields, continue reading. If not, go to add our <<processor,processor>>.
 
-==== @Optional Method
+==== @Optional Parameters
 
 Optional parameters or configurable ones are elements that are not required, and therefore, there is no need for users to specify a value.
 
 You can specify configurable fields inside an @Connector or connection strategies classes, or as parameters of @Processor methods inside a @Connector.
 
-[source,java,linenums]
+[source,java]
 ----
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Processor;
@@ -178,7 +177,7 @@ public String sayHi(String firstName,@Optional String lastName ) {
 ==== @Default
 
 When you want an optional parameter or configurable you can avoid the use of @Optional and just use the @Default annotation.
-[source,java,linenums]
+[source,java]
 ----
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Processor;
@@ -271,6 +270,9 @@ See:
 
 * The full http://www.mulesoft.org/documentation/display/current/Developing+DevKit+Connector+Tests[testing documentation].
 
+include::connection-management.adoc[]
+
+include::oauth2.adoc[]
 
 include::errorHandling.adoc[]
 
