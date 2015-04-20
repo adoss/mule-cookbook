@@ -7,11 +7,11 @@ You need to do 3 things in order to have a paginated operation:
 
 [source,java]
 ----
-include::{resourcesDir}/java/v8/CookbookConnector.java[lines=234..241]
+include::{resourcesDir}/java/v8/CookbookConnector.java[lines=232..239]
 ----
-<1> - Annotated your processor with @Paged.
-<2> - Return a ProviderAwarePagingDelegate
-<3> - Receive as one of your parameters a PagingConfiguration
+<1> Annotated your processor with @Paged.
+<2> Return a ProviderAwarePagingDelegate
+<3> Receive as one of your parameters a PagingConfiguration
 
 --
 When implementing your ProviderAwarePagingDelegate you need to specify two elements:
@@ -26,11 +26,12 @@ include::{resourcesDir}/java/v8/CookbookPagingDelegate.java[]
 NOTE: If you have a reconnection strategy, DevKit will automatically reconnect and retry to get a page. It is important that you handle the state of your PagingDelegate to make sure you retry the last page that was not retrieved.
 
 See:
-. http://www.mulesoft.org/documentation/display/current/Adding+Query+Pagination+Support[Adding Pagination Support].
+
+* http://www.mulesoft.org/documentation/display/current/Adding+Query+Pagination+Support[Adding Pagination Support].
 
 === Using Pagination In Your Mule App
 
-. You can for example use a foreach in front of your paged processor:
+You can for example use a foreach in front of your paged processor:
 ++++
 <div class="panel panel-default no-padding">
     <div class="panel-heading no-padding">

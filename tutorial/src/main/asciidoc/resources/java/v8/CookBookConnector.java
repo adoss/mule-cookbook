@@ -231,9 +231,9 @@ public class CookBookConnector {
 	 */
 	@Processor
 	@ReconnectOn(exceptions = { SessionExpiredException.class })
-	@Paged
-	public ProviderAwarePagingDelegate<Map<String, Object>, CookBookConnector> queryPaginated(
-			final String query, final PagingConfiguration pagingConfiguration)
+	@Paged // <1>
+	public ProviderAwarePagingDelegate<Map<String, Object>, CookBookConnector> queryPaginated( // <2>
+			final String query, final PagingConfiguration pagingConfiguration) // <3>
 			throws SessionExpiredException {
 		return new CookbookPagingDelegate(query, pagingConfiguration.getFetchSize());
 	}

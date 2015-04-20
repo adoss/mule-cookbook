@@ -137,10 +137,8 @@ image::datasense/datasense-static.png[width="800"]
 Now even DataMapper knows how to interact with our @Connector:
 +
 image::datasense/datasense-static2.png[width="800"]
-+
-. View connector full source code:
-+
-link:{resourcesDir}/java/v5/CookBookConnector.java[here].
+
+View connector full source code link:{resourcesDir}/java/v5/CookBookConnector.java[here].
 
 ==== Dynamic DataSense
 

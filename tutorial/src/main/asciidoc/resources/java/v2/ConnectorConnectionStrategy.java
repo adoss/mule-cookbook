@@ -78,7 +78,7 @@ public class ConnectorConnectionStrategy {
 	}
 
 	/**
-	 * Are we connected
+	 * Id used only when debuging.
 	 */
 	@ConnectionIdentifier
 	public String connectionId() {
