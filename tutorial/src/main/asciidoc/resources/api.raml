@@ -1,11 +1,10 @@
 #%RAML 0.8
 title: Mule Store
-version: 2.0.0
+version: 1.0.0
 baseUri: http://server/api/{version}
 schemas:
-- book: !include mule-store-book.schema
-- author: !include mule-store-author.schema
-- custom-entity: !include mule-store-custom-entity.schema
+- ingredient: !include mule-ingredient.schema
+- recipe: !include mule-recipe.schema
 traits:
 - searchable:
     queryParameters:
@@ -19,19 +18,26 @@ traits:
       page:
         required: false
         description: Current Page
+- secured:
+    headers:
+      token:
+        description: Send this header with the secret token
+        example: 71543fa6a11044b0a9f3a8354ddcb00e
 resourceTypes:
 - entity:
     description: Collection of available <<resourcePathName>> in Jukebox.
     get:
       description: Get a list of <<resourcePathName>>.
-      is: [searchable]
+      is: [searchable,secured]
       responses:
         200:
           body:
             application/json:
-              example: !include <<exampleCollection>>
+              example: |
+                <<exampleCollection>>
     post:
       description: Creates a <<resourcePathName|!singularize>>.
+      is: [secured]
       responses:
         200:
           body:
@@ -45,14 +51,17 @@ resourceTypes:
         Get the <<resourcePathName|!singularize>>
         with <<resourcePathName|!singularize>>Id =
         {<<resourcePathName|!singularize>>Id}
+      is: [searchable,secured]
       responses:
         200:
           body:
             application/json:
-              example: !include <<exampleItem>>
+              example: |
+                <<exampleItem>>
     put:
       description: | 
         Add a new <<resourcePathName|!singularize>>
+      is: [secured]
       body:
         application/json:
           example: |
@@ -66,6 +75,7 @@ resourceTypes:
     delete:
       description: |
         Deletes a <<resourcePathName|!singularize>>.
+      is: [secured]
       responses:
         200:
            body:
@@ -74,68 +84,56 @@ resourceTypes:
                 {"message": "<<resourcePathName|!singularize>> not found" }
 - bulk-api:
     description: Handle multiple <<entityType>> in a single request
+    get:
+      description: Deletes a list of <<entityType>>
+      is: [secured]
+      responses:
+        200:
+          body:
+            application/json:
     post:
-      description: Creates a list of books
+      description: Creates a list of <<entityType>>
       responses:
         200:
           body:
             application/json:
-              example: !include mule-store-book-collection.sample
     put:
-      description: Updates a list of book
+      description: Updates a list of <<entityType>>
+      is: [secured]
       responses:
         200:
           body:
             application/json:
-              example: !include mule-store-book-collection.sample
     delete:
-      description: Deletes a list of books
+      description: Deletes a list of <<entityType>>
+      is: [secured]
       responses:
         200:
           body:
             application/json:
-              example: !include mule-store-book-collection.sample
-/authors:
+/ingredient:
   type:
     entity:
-      exampleCollection: !include mule-store-book-collection.sample
-      exampleItem: !include mule-store-book.sample
+      exampleCollection: !include mule-ingredient-collection.sample
+      exampleItem: !include mule-ingredient.sample
   /{id}:
     type:
       entity-item: 
-        exampleItem: !include mule-store-book.sample
+        exampleItem: !include mule-ingredient.sample
   /bulk:
     type:
       bulk-api: 
-        entityType: authors
-/books:
+        entityType: ingredient
+/recipe:
   type:
     entity:
-      exampleCollection: !include mule-store-book-collection.sample
-      exampleItem: !include mule-store-book.sample
+      exampleCollection: !include mule-ingredient-collection.sample
+      exampleItem: !include mule-ingredient.sample
   /{id}:
     type:
       entity-item: 
-        exampleItem: !include mule-store-book.sample
+        exampleItem: !include mule-ingredient.sample
   /bulk:
     type:
       bulk-api: 
-        entityType: books
-/sales:
-  type:
-    entity:
-      exampleCollection: !include mule-store-book-collection.sample
-      exampleItem: !include mule-store-book.sample
-  /{id}:
-    type:
-      entity-item: 
-        exampleItem: mule-store-book.sample
-/custom-entities:
-  type:
-    entity:
-      exampleCollection: !include mule-store-book-collection.sample
-      exampleItem: !include mule-store-book.sample
-  /{id}:
-    type:
-      entity-item: 
-        exampleItem: !include mule-store-book.sample
+        entityType: recipe

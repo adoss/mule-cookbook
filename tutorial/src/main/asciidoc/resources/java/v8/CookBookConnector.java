@@ -81,27 +81,27 @@ public class CookBookConnector {
 	 * @throws Exception
 	 *             When the source fails.
 	 */
-	@Source
-	public void getRecentlyAddedSource(final SourceCallback callback)
-			throws Exception {
-		while (true) {
-			// Every 5 seconds our callback will be executed
-			getClient().getRecentlyAdded(new ICookbookCallback() {
+    @Source(sourceStrategy = SourceStrategy.POLLING, pollingPeriod = 10000)
+    public void getRecentlyAddedSource(final SourceCallback callback)
+            throws Exception {
 
-				@Override
-				public void execute(List<Recipe> recipes) throws Exception{
-						callback.process(recipes);
-					
-				}
-			});
+        if (getClient() != null) {
+            // Every 5 seconds our callback will be executed
+            getClient().getRecentlyAdded(new ICookbookCallback() {
 
-			if (Thread.interrupted()) {
-				throw new InterruptedException();
-			}
-			// This value can be configurable also
-			Thread.sleep(10000);
-		}
-	}
+                @Override
+                public void execute(List<Recipe> recipes) throws Exception {
+                    callback.process(recipes);
+                }
+            });
+
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+            }
+        }
+
+    }
+
 
 	/**
 	 * Description for create

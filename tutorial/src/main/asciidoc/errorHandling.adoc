@@ -26,7 +26,7 @@ include::{resourcesDir}/java/v3/CookBookConnector.java[lines=66..70]
 ----
 Check the full link:{resourcesDir}/java/v3/CookBookConnector.java[source code].
 
-=== Handling Session Expiration with @ReconnectOn
+=== Handling Session Expiration
 
 There is no need for users to add custom code in their Mule apps to handle session expiration. DevKit provides a mechanism to do this in a clean way.
 

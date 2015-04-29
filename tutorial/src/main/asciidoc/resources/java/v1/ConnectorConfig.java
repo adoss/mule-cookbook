@@ -3,39 +3,31 @@
  * a copy of which has been included with this distribution in the LICENSE.md file.
  */
 
-package org.mule.modules.cookbook.strategy;
+package org.mule.modules.cookbook.config;
 
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.components.Configuration;
 import org.mule.api.annotations.param.Default;
 
 /**
- * Configuration type Strategy
+ * Configuration type Config
  *
  * @author MuleSoft, Inc.
  */
-@Configuration(configElementName = "config-type", friendlyName = "Configuration type strategy")
-public class ConnectorConnectionStrategy {
-	
-	/**
-	 * Address where the server is running
-	 */
-	@Configurable
-	@Default("http://localhost:9090/cook-book")
-	private String address;
+@Configuration(configElementName = "config-type", friendlyName = "Configuration type config")
+public class ConnectorConfig {
 
 	/**
-	 * Get Server Address
-	 * @return the address configured by the user
+	 * Description for address
 	 */
+	@Configurable
+	@Default("http://devkit-cookbook.cloudhub.io/soap")
+	private String address;
+
 	public String getAddress() {
 		return address;
 	}
 
-	/**
-	 * Set the address
-	 * @param address The url of that will be used to initialize the client.
-	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}

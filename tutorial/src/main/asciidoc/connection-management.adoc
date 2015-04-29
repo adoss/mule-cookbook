@@ -1,4 +1,4 @@
-=== Using Connection Management
+=== Adding Connection Management
 
 Unlike the *getRecentlyAdded* call that doesn't need for us to be authenticated, all other operations require that you set a token on each request.
 
@@ -45,3 +45,7 @@ In our Mule app, we just need to add a configuration that has bad credentials.
 Then we execute the test and make the assertions.
 
 image::connectivityTest.png[width="600"]
+
+See:
+
+* http://www.mulesoft.org/documentation/display/current/Authentication[DevKit Authentication] documentation.

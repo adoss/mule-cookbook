@@ -84,29 +84,21 @@ public class CookBookConnector {
 	 *             When the source fails.
 	 */
 	@OAuthProtected
-	@Source
-	public void getRecentlyAddedSource(final SourceCallback callback)
-			throws Exception {
-		while (true) {
-			//Our client may not have being initialized yet if this is an Oauth Strategy.
-            if (getClient() != null) {
-                // Every 5 seconds our callback will be executed
-                getClient().getRecentlyAdded(new ICookbookCallback() {
+    @Source(sourceStrategy = SourceStrategy.POLLING, pollingPeriod = 10000)
+    public void getRecentlyAddedSource(final SourceCallback callback)
+            throws Exception {
 
-                    @Override
-                    public void execute(List<Recipe> recipes) throws Exception {
-                        callback.process(recipes);
-                    }
-                });
+        if (getClient() != null) {
+            // Every 5 seconds our callback will be executed
+            getClient().getRecentlyAdded(new ICookbookCallback() {
 
-                if (Thread.interrupted()) {
-                    throw new InterruptedException();
+                @Override
+                public void execute(List<Recipe> recipes) throws Exception {
+                    callback.process(recipes);
                 }
-            }
-            // This value can be configurable also
-			Thread.sleep(10000);
-		}
-	}
+            });
+        }
+    }
 
 	/**
 	 * Description for create
