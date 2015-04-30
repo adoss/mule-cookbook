@@ -10,21 +10,33 @@ The http://www.mulesoft.org/documentation/display/current/Annotation+Reference#A
 
 When handling messages retrieved from the API, if the message is poor and you know how to improve it, you can us this mechanism, to enrich the error provided to the user.
 
-After defining your handler, you can use them either by annotating your class or your processor.
+To see how it works, lets create one to handle the InvalidEntityException thrown by the create call of the Cookbook SDK.
 
-Our @Handler Class could be:
-
+. Open the new Anypoint Connector Component by doing a right click and selecting the wizzard.
++
+image::new-component.png[width="600"]
++
+. Select the package, component type and class name and click on Finish.
++
+image::new-component-2.png[width="600"]
++
+. Improve the error message when InvalidEntityException is thrown.
++
 [source,java]
 ----
-include::{resourcesDir}/java/v3/CookBookHandler.java[]
+include::{resourcesDir}/java/v3/CookbookHandler.java[lines=11..19]
 ----
-
-To use it in one processor.
++
+Check the full link:{resourcesDir}/java/v3/CookbookHandler.java[source code].
++
+. Add a new processor to create Ingredients
++
 [source,java,indent=0]
 ----
-include::{resourcesDir}/java/v3/CookBookConnector.java[lines=66..70]
+include::{resourcesDir}/java/v3/CookbookConnector.java[lines=59..63]
 ----
-Check the full link:{resourcesDir}/java/v3/CookBookConnector.java[source code].
++
+Check the full link:{resourcesDir}/java/v3/CookbookConnector.java[source code].
 
 === Handling Session Expiration
 
@@ -34,8 +46,10 @@ Just annotate your @Processor method with the @ReconnectOn exception.
 
 [source,java,indent=0]
 ----
-include::{resourcesDir}/java/v3/CookBookConnector.java[lines=84..88]
+include::{resourcesDir}/java/v3/CookbookConnector2.java[lines=60..65]
 ----
++
+Check the full link:{resourcesDir}/java/v3/CookbookConnector2.java[source code].
 
 In our Mule app, you can configure a reconnection strategy so that our Mule app is ready to  handle session expirations.
 
@@ -46,7 +60,7 @@ image::reconnect.png[width="500"]
 The XML generated looks like:
 [source,xml]
 ----
-<cook-book:config-type doc:name="config" name="config" password="admin" username="admin">
+<cookbook:config-type doc:name="config" name="config" password="admin" username="admin">
     <reconnect/>
-</cook-book:config-type>
+</cookbook:config-type>
 ----

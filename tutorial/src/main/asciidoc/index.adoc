@@ -73,7 +73,7 @@ To solve this, DevKit provides a pair of annotations that let you modularize in 
 When you mark a field with @Config, DevKit ensures that you have an initialized object set when the Mule app runs and that requests are made to your connector.
 ====
 
-==== Adding dependencies
+==== Adding Dependencies
 
 Let's start coding and create a connector that allows you to get the recently added elements.
 
@@ -96,16 +96,14 @@ In your pom.xml file add:
 
 include::add-configurable.adoc[]
 
-=== Initialize the client
+=== Initialize the Client
 
 . On your @Connector marked class use the @Start annotation on a method to initialize the client.
 +
 [source,java]
 ----
-include::{resourcesDir}/java/v1/CookBookConnector.java[lines=30..35]
+include::{resourcesDir}/java/v1/CookbookConnector.java[lines=30..35]
 ----
-+
-See full link:{resourcesDir}/java/v1/CookBookConnector.java[Connector] source code.
 +
 [NOTE]
 ====
@@ -116,92 +114,9 @@ There is an annotation method for each of the four phases of Mule lifecycle.
 When a method is annotated with one of these annotations, DevKit invokes the method during the Mule lifecycle phase that the annotation represents.
 ====
 
-[[processor]]
-=== Adding @Processor methods
-
-. Remove the dummy operation the connector has.
-+
-. To add a processor simply type *proc* at the editor and use Ctrl+Space to display the templates and pick the simple processor.
-+
-image::processor1.png[width="600"]
-+
-Change it to reflect the +getRecentlyAdded+ method signature, and there we have our first connector, ready to be tested.
-+
-image::processor2.png[width="600"]
-+
-Run the http://www.mulesoft.org/documentation/display/current/Creating+an+Anypoint+Connector+Project#CreatinganAnypointConnectorProject-MoreDevKitActions[Generate Sources] Action.
-
-At this point you can <<install-guide,install>> this Connector and try it in Studio if you want.
-
-[IMPORTANT]
-====
-As you modify your connector, you may start seeing error markers on the generated folder.
-
-Just ignore them.
-
-Once you regenerate the sources, the errors will go away as the generated code will be refreshed.
-====
-
-==== Adding Samples to Your Connector
-
-Let's now add the example for it.
-
-Create the file pointed by the *{@sample ...}* if it doesn't exists already
-
-*Note*: When you add an example, use the same name as the name that narrows the example in the file. Inside of it you have to put an example of the @Processor.
-
-If you have the Javadoc check enabled, DevKit plugin marks the missing example as an error and provide a quick fix for us to easily add the example.
-
-Otherwise, open the file and type *<* at the editor and use Ctrl+Space to display the templates and pick the one that best suite our operation.
-
-image::sample1.png[width="600"]
-
-Our example in this case looks like this:
-
-[source,xml,indent=0]
-----
-<!-- BEGIN_INCLUDE(cook-book:getRecentlyAdded) -->
-	<cook-book:get-recently-added/>
-<!-- END_INCLUDE(cook-book:getRecentlyAdded) -->
-----
-
-include::using-my-connector.adoc[]
-
-=== Testing your @Processor
-
-To test your @Processor:
-
-. Generate the required files to test the operation, as if it was being used inside a Mule application.
-. Right click the root of your project and click *Anypoint Connector* > *Generate Tests*.
-. Select the operation you want to use to generate the test, and all the files you want to create.
-. After the generation ends, modify the test to make the corresponding setup and assertions.
-+
-image::generate-tests1.png[width="600"]
-+
-. Start the server, and run your test now.
-+
-It's all green!
-+
-image::generate-tests2.png[width="600"]
-
-So, what just happened?
-
-* We ran a Mule app that contained one simple flow with the XML that represents our operation.
-* A connector instance was created and using our configuration, connected to the server.
-* The operation executed and the payload now is the result of that operation.
-* We retrieved the payload, cast it to what we know the result is, and started making the relevant assertions.
-
-See:
-
-* Adding http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#functional_tests_automation[Functional Tests Automation].
-
-* http://mulesoft.github.io/connector-certification-docs/current/user-manual.html#_generating_functional_tests[Generating Functional Tests].
-
-* The full http://www.mulesoft.org/documentation/display/current/Developing+DevKit+Connector+Tests[testing documentation].
+include::processor-section.adoc[]
 
 include::connection-management.adoc[]
-
-include::oauth2.adoc[]
 
 include::errorHandling.adoc[]
 
@@ -209,12 +124,14 @@ include::datasense.adoc[]
 
 include::pagination.adoc[]
 
+// TODO Document batch
 // include::batch.adoc[]
 
 include::install-connector.adoc[]
 
 include::debug.adoc[]
 
+// TODO IGNORE DOCUMENTATION SECTION FOR NOW
 // include::documenting.adoc[]
 
 == Sharing My Connector
@@ -277,69 +194,9 @@ image::split-2-high.png[caption="Figure 2: ", title="View configuration and XML"
 @ConnectionStrategy annotation is deprecated. Users instead should use @Config. On this views, consider the ConnectionStrategy as the ConnectorConfig
 ====
 
-[[configurable]]
-=== Configurable and Parameter Modifiers
+include::configurables.adoc[]
 
-==== @Optional Parameters
-
-Optional parameters or configurable ones are elements that are not required, and therefore, there is no need for users to specify a value.
-
-You can specify configurable fields inside an @Connector or connection strategies classes, or as parameters of @Processor methods inside a @Connector.
-
-[source,java]
-----
-import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.param.Optional;
-
-//Inside the @Connector class
-
-/**
- * Optional Field documentation
- */
-@Configurable
-@Optional
-private String  optionalField;
-//Getter and Setter of the field are required
-
-/**
- * Optional parameter
- */
-@Processor
-public String sayHi(String firstName,@Optional String lastName ) {
-    return "Hi "+firstName+" "+((lastName==null) ? "":lastName);
-}
-----
-
-==== @Default
-
-When you want an optional parameter or configurable you can avoid the use of @Optional and just use the @Default annotation.
-[source,java]
-----
-import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Processor;
-import org.mule.api.annotations.param.Default;
-
-//Inside the @Connector class
-
-/**
- *  Field with Default
- */
-@Configurable
-@Default("Hi")
-private String  greeting;
-//Getter and Setter of the field are required
-
-/**
- * Default parameter
- */
-@Processor
-public String sayHi(String firstName,@Default("Unknown") String lastName ) {
-    return greeting+" "+firstName+" "+lastName;
-}
-----
-
-Another very important use of the @Default annotation is when building a connector that has DataSense.
+include::oauth2.adoc[]
 
 include::multiple-connection-strategies.adoc[]
 
@@ -361,7 +218,7 @@ When using the @Password in a @Connect parameters, generate in the UI a masked i
 
 [source,java]
 ----
-include::{resourcesDir}/java/v2/ConnectorConnectionStrategy.java[lines=50..53]
+include::{resourcesDir}/java/v2/ConnectorConfig.java[lines=41..43]
 ----
 
 In Studio this translates into:
@@ -374,128 +231,4 @@ image::password.png[width="500"]
 
 //TODO
 
-== Using an API to Build a Connector
-
-APIs are exposed in several ways. To start using your API, set up different things before using it inside your connector.
-
-=== SDK Client
-
-If you have an SDK all you need to do is to include the Maven dependency for your jar in the pom.xml
-
-For example in our case, to consume the SDK for the Cookbook we can add the dependency.
-
-[source,xml,indent=0]
-----
-<dependencies>
-  <dependency>
-    <groupId>foo.sdk.group.id</groupId>
-    <artifactId>foo.sdk.artifact.id</artifactId>
-    <version>${sdk.version}</version>
-  </dependency>
-</dependencies>
-----
-
-=== SOAP API
-
-If you have a wsdl, the easiest way to build a connector is to create a client using cxf http://cxf.apache.org/docs/wsdl-to-java.html[wsdl2java].
-
-You can configure the CXF goal in your pom.xml file very easily. The full documentation is at the Apache  http://cxf.apache.org/docs/maven-cxf-codegen-plugin-wsdl-to-java.html[CXF site].
-
-For example in your pom.xml file, you can add the following plus all required dependencies:
-[source,xml,indent=0,linenums]
-----
-<build>
-  <plugins>
-    <!-- CXF Code generation -->
-    <plugin>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-codegen-plugin</artifactId>
-      <version>${cxf.version}</version>
-      <executions>
-        <execution>
-          <phase>clean</phase> <!-- This is so it work with the DevKit -->
-          <goals>
-            <goal>wsdl2java</goal>
-          </goals>
-          <configuration>
-            <wsdlOptions>
-              <wsdlOption>
-                <wsdl>${basedir}/src/main/resources/wsdl/IMuleCookBookService.wsdl</wsdl>
-                <autoNameResolution>true</autoNameResolution>
-                <extendedSoapHeaders>false</extendedSoapHeaders>
-                <extraargs>
-                  <extraarg>-xjc-Xbg</extraarg>
-                   <extraarg>-xjc-Xcollection-setter-injector</extraarg>
-                  <extraarg>-p</extraarg>
-                  <extraarg>org.mule.modules.wsdl.api</extraarg>
-                </extraargs>
-              </wsdlOption>
-            </wsdlOptions>
-          </configuration>
-         </execution>
-      </executions>
-      <dependencies>
-        <!-- Boolean Getters -->
-        <dependency>
-          <groupId>org.apache.cxf.xjcplugins</groupId>
-          <artifactId>cxf-xjc-boolean</artifactId>
-          <version>${cxf.version.boolean}</version>
-        </dependency>
-        <!-- Collection Setters -->
-        <dependency>
-          <groupId>net.java.dev.vcc.thirdparty</groupId>
-          <artifactId>collection-setter-injector</artifactId>
-          <version>0.5.0-1</version>
-        </dependency>
-      </dependencies>
-    </plugin>
-  </plugins>
-</build>
-----
-
-If you use the DevKit plugin it generates everything for you to get started, you just need to specify the WSDL location on your computer.
-
-=== REST API
-Write the request using any library that helps you make HTTP Requests.
-
-We recommend using Jersey {muleJerseyVersion}, which is provided in Mule version 3.6.0 and later.
-
-To make sure you always use the right version, add the following dependency.
-[source,xml,indent=0]
-----
-<dependencies>
-    <dependency>
-        <groupId>org.mule.modules</groupId>
-        <artifactId>mule-module-jersey</artifactId>
-        <version>${mule.version}</version>
-        <scope>provided</scope>
-    </dependency>
-</dependencies>
-----
-
-Example GET request:
-[source,java,indent=0,linenums]
-----
-ClientConfig clientConfig = new ClientConfig();
-Client client = ClientBuilder.newClient(clientConfig);
-WebTarget webTarget = client.target("http://example.com/rest");  // # <1>
-WebTarget resourceWebTarget = webTarget.path("resource");
-WebTarget helloworldWebTarget = resourceWebTarget.path("helloworld");  // # <2>
-WebTarget helloworldWebTargetWithQueryParam =
-        helloworldWebTarget.queryParam("greeting", "Hi World!");  // # <3>
-
-Invocation.Builder invocationBuilder =
-        helloworldWebTargetWithQueryParam.request(MediaType.APPLICATION_JSON_TYPE);  // # <4>
-
-Response response = invocationBuilder.get();  // # <5>
-System.out.println(response.getStatus());
-System.out.println(response.readEntity(String.class));
-----
-<1> - The client is ready to make a request to URL http://example.com/rest
-<2> - Add paths for http://example.com/rest/resource/helloworld
-<3> - Configure a query param. It looks like http://example.com/rest/resource/helloworld?greeting=Hi+World%21
-<4> - Specify we want the reply in JSON format
-<5> - Make a GET request
-
-
-For more information, see the https://jersey.java.net/documentation/latest/client.html[Jersey client] documentation.
+include::other-api.adoc[]

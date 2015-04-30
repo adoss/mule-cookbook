@@ -37,7 +37,7 @@ public class CookbookConnector {
 	/**
 	 * Returns the list of recently added recipes
 	 *
-	 * {@sample.xml ../../../doc/cook-book-connector.xml.sample
+	 * {@sample.xml ../../../doc/cookbook-connector.xml.sample
 	 * cook-book:getRecentlyAdded}
 	 * 
 	 * @return A list of the recently added recipes

@@ -1,4 +1,4 @@
-=== Using the Connector
+=== Using the Connector in Mule
 You will do a very simple app that listens to an HTTP endpoint and when we hit it, it will retrieve the list of recently added elements.
 
 . Create a mule app and add a simple http listener. If this is your first mule app, take a look at our http://www.mulesoft.org/documentation/display/current/Build+a+Hello+World+Application[Hello World Application].

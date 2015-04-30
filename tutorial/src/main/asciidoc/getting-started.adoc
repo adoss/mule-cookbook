@@ -21,7 +21,7 @@ DevKit's functionality is exposed to connector developers through http://docs.or
 
 You can develop a connector using Windows, Mac, or Linux.
 
-== Setup environment
+== Setup Environment
 
 * Download and install http://www.oracle.com/technetwork/java/javase/downloads/java-archive-downloads-javase7-521261.html[Java 1.7 JDK].
 * Download and install http://maven.apache.org/download.cgi[Maven].
@@ -51,6 +51,9 @@ image::install-plugin-2.png[]
 
 4. Restart Studio.
 
-NOTE: If the Anypoint Addons Update Site is not available in the dropdown list, click Add and copy this URL to the repository Location: http://studio.mulesoft.org/r4/addons/beta
+[NOTE]
+====
+If the Anypoint Addons Update Site is not available in the dropdown list, click Add and copy this URL to the repository Location: http://studio.mulesoft.org/r4/addons/beta
 
-NOTE: This url is not an url you can explore, it is an update site that you can add in you Anypoint Studio.
+This url is not an url you can explore, it is an update site that you can add in you Anypoint Studio.
+====

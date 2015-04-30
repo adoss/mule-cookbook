@@ -1,5 +1,5 @@
 
-=== Adding @Configurable fields
+=== Adding @Configurable Fields
 
 On the @Configuration ConnectorConfig add a <<configurable,configurable>> field for the address were the {tutorial} service is hosted:
 

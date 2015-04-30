@@ -20,7 +20,7 @@ This connector supports the following authentication types:
 
 ==== Credentials
 
-===== Custom authentication:
+===== Custom Authentication:
 [cols="2*",options="header"]
 |===
 | Username
@@ -40,7 +40,7 @@ This connector supports the following authentication types:
 | YeKAsQCdr264tNmDdvTdJUAh9TQraJqZpwbEoTuz
 |===
 
-=== Connecting to the service
+=== Connecting to the Service
 
 The web service is available online.
 

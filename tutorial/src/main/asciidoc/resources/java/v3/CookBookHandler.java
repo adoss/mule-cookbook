@@ -6,14 +6,16 @@ import org.mule.api.annotations.components.Handler;
 import com.cookbook.tutorial.service.InvalidEntityException;
 
 @Handler
-public class CookBookHandler {
+public class CookbookHandler {
 
-	@Handle
-	public void handleException(Exception ex) throws Exception{
-		if(ex instanceof InvalidEntityException){
-			throw new RuntimeException("You cannot provide an Id when creating a Recipe");
-		}else{
-			throw ex;
-		}
-	}
+    @Handle
+    public void handleException(Exception ex) throws Exception {
+        if (ex instanceof InvalidEntityException) {
+            throw new RuntimeException("You cannot provide an Id when creating an Ingredient");
+        } else {
+            // Just let it go
+            throw ex;
+        }
+    }
+
 }
