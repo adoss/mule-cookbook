@@ -3,20 +3,19 @@ package org.mule.modules.cookbook.pagination;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.mule.api.MuleException;
-import org.mule.modules.cookbook.CookBookConnector;
+import org.mule.modules.cookbook.CookbookConnector;
 import org.mule.streaming.ProviderAwarePagingDelegate;
 
 import com.cookbook.tutorial.service.CookBookEntity;
 import com.cookbook.tutorial.service.SessionExpiredException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class CookbookPagingDelegate extends
-        ProviderAwarePagingDelegate<Map<String, Object>, CookBookConnector> {
+public class CookbookPagingDelegate extends ProviderAwarePagingDelegate<Map<String, Object>, CookbookConnector> {
 
     private Integer currentPage = 0;
-    ObjectMapper m = new ObjectMapper();
+    private ObjectMapper m = new ObjectMapper();
 
     private final Integer pageSize;
     private final String query;
@@ -41,11 +40,11 @@ public class CookbookPagingDelegate extends
      * @throws Exception
      */
     @Override
-    public List<Map<String, Object>> getPage(CookBookConnector connector)
+    public List<Map<String, Object>> getPage(CookbookConnector connector)
             throws Exception {
 
         try {
-            List<CookBookEntity> list = connector.getConnectionStrategy()
+            List<CookBookEntity> list = connector.getConfig()
                     .getClient()
                     .searchWithQuery(query, currentPage++, pageSize);
             List<Map<String, Object>> result = m.convertValue(list,
@@ -69,7 +68,7 @@ public class CookbookPagingDelegate extends
      * @param connector The provider to be used to do the query. You can assume this provider is already properly initialised
      */
     @Override
-    public int getTotalResults(CookBookConnector connector) throws Exception {
+    public int getTotalResults(CookbookConnector provider) throws Exception {
         return -1;
     }
 

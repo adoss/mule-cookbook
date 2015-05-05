@@ -1,49 +1,35 @@
-package org.mule.modules.cookbook.strategy;
+package org.mule.modules.cookbook.config;
 
-import com.cookbook.tutorial.client.MuleCookBookClient;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.oauth.*;
 import org.mule.api.annotations.param.Default;
 
-/**
- * Created by Mulesoft.
- */
-@OAuth2(friendlyName = "OAuth2 Strategy",
-        authorizationUrl = "http://localhost:9091/oauth/authorize",
-        accessTokenUrl = "http://localhost:9091/oauth/accessToken")
-public class OAuthStrategy {
+import com.cookbook.tutorial.client.MuleCookBookClient;
 
-    public MuleCookBookClient getClient() {
-        return client;
-    }
-
-    public void setClient(MuleCookBookClient client) {
-        this.client = client;
-    }
+@OAuth2(configElementName = "oauth2-type", friendlyName = "OAuth2 Configuration", authorizationUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/authorize", accessTokenUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/accessToken")
+public class OAuthConfig {
 
     private MuleCookBookClient client;
+
+    @OAuthAccessToken
+    private String accessToken;
+    @Configurable
+    @OAuthConsumerKey
+    private String consumerKey;
+    @Configurable
+    @OAuthConsumerSecret
+    private String consumerSecret;
 
     /**
      * URL used to connect to the service
      */
     @Configurable
-    @Default("http://localhost:9090/cook-book")
-    private String endpoint;
-
-    @OAuthAccessToken
-    private String accessToken;
-
-    @Configurable
-    @OAuthConsumerKey
-    private String consumerKey;
-
-    @Configurable
-    @OAuthConsumerSecret
-    private String consumerSecret;
+    @Default("http://devkit-cookbook.cloudhub.io/soap")
+    private String address;
 
     @OAuthPostAuthorization
     public void postAuthorize() {
-        setClient(new MuleCookBookClient(getEndpoint()));
+        setClient(new MuleCookBookClient(getAddress()));
         getClient().setToken(getAccessToken());
     }
 
@@ -71,11 +57,20 @@ public class OAuthStrategy {
         return this.consumerSecret;
     }
 
-    public String getEndpoint() {
-        return endpoint;
+    public MuleCookBookClient getClient() {
+        return client;
     }
 
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
+    public void setClient(MuleCookBookClient client) {
+        this.client = client;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 }

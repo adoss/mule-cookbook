@@ -102,16 +102,16 @@ Example GET request:
 ----
 ClientConfig clientConfig = new ClientConfig();
 Client client = ClientBuilder.newClient(clientConfig);
-WebTarget webTarget = client.target("http://example.com/rest");  // # <1>
+WebTarget webTarget = client.target("http://example.com/rest");                     // # <1>
 WebTarget resourceWebTarget = webTarget.path("resource");
-WebTarget helloworldWebTarget = resourceWebTarget.path("helloworld");  // # <2>
+WebTarget helloworldWebTarget = resourceWebTarget.path("helloworld");               // # <2>
 WebTarget helloworldWebTargetWithQueryParam =
-        helloworldWebTarget.queryParam("greeting", "Hi World!");  // # <3>
+        helloworldWebTarget.queryParam("greeting", "Hi World!");                    // # <3>
 
 Invocation.Builder invocationBuilder =
-        helloworldWebTargetWithQueryParam.request(MediaType.APPLICATION_JSON_TYPE);  // # <4>
+        helloworldWebTargetWithQueryParam.request(MediaType.APPLICATION_JSON_TYPE); // # <4>
 
-Response response = invocationBuilder.get();  // # <5>
+Response response = invocationBuilder.get();                                        // # <5>
 System.out.println(response.getStatus());
 System.out.println(response.readEntity(String.class));
 ----

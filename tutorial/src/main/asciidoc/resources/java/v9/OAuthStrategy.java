@@ -1,33 +1,26 @@
-package org.mule.modules.cookbook.strategy;
+package org.mule.modules.cookbook.config;
 
-import com.cookbook.tutorial.client.MuleCookBookClient;
 import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.oauth.*;
 
-/**
- * Created by Mulesoft.
- */
-@OAuth2(friendlyName = "OAuth2 Strategy",
-        authorizationUrl = "http://localhost:9091/oauth/authorize",
-        accessTokenUrl = "http://localhost:9091/oauth/accessToken")
-public class OAuthStrategy extends ConnectorConnectionStrategy{
+import com.cookbook.tutorial.client.MuleCookBookClient;
+
+@OAuth2(configElementName = "oauth2-type", friendlyName = "OAuth2 Configuration", authorizationUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/authorize", accessTokenUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/accessToken")
+public class OAuthConfig extends ConnectorConfig {
 
     @OAuthAccessToken
     private String accessToken;
-
     @Configurable
     @OAuthConsumerKey
     private String consumerKey;
-
     @Configurable
     @OAuthConsumerSecret
     private String consumerSecret;
 
     @OAuthPostAuthorization
     public void postAuthorize() {
-        MuleCookBookClient client=new MuleCookBookClient(getEndpoint());
-        client.setToken(this.getAccessToken());
-        setClient(client);
+        setClient(new MuleCookBookClient(getAddress()));
+        getClient().setToken(getAccessToken());
     }
 
     public void setAccessToken(String accessToken) {

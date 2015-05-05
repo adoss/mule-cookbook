@@ -1,8 +1,3 @@
-/**
- * (c) 2003-2015 MuleSoft, Inc. The software in this package is published under the terms of the CPAL v1.0 license,
- * a copy of which has been included with this distribution in the LICENSE.md file.
- */
-
 package org.mule.modules.cookbook.datasense;
 
 import java.util.ArrayList;
@@ -21,7 +16,7 @@ import org.mule.common.metadata.MetaDataModel;
 import org.mule.common.metadata.builder.DefaultMetaDataBuilder;
 import org.mule.common.metadata.builder.DynamicObjectBuilder;
 import org.mule.common.metadata.datatype.DataType;
-import org.mule.modules.cookbook.CookBookConnector;
+import org.mule.modules.cookbook.CookbookConnector;
 
 import com.cookbook.tutorial.service.CookBookEntity;
 import com.cookbook.tutorial.service.Description;
@@ -32,14 +27,11 @@ import com.cookbook.tutorial.service.NoSuchEntityException;
 import com.cookbook.tutorial.service.SessionExpiredException;
 import com.cookbook.tutorial.service.UnitType;
 
-/**
- * Category which can differentiate between input or output MetaDataRetriever
- */
 @MetaDataCategory
 public class DataSenseResolver {
 
     @Inject
-    private CookBookConnector connector;
+    private CookbookConnector connector;
 
     /**
      * Retrieves the list of keys
@@ -47,7 +39,7 @@ public class DataSenseResolver {
     @MetaDataKeyRetriever
     public List<MetaDataKey> getMetaDataKeys() throws Exception {
         List<MetaDataKey> keys = new ArrayList<MetaDataKey>();
-        List<CookBookEntity> entities = connector.getConnectionStrategy()
+        List<CookBookEntity> entities = getConnector().getConfig()
                 .getClient().getEntities();
         // Generate the keys
         for (CookBookEntity entity : entities) {
@@ -78,7 +70,7 @@ public class DataSenseResolver {
         CookBookEntity entity = (CookBookEntity) Class.forName(keyParts[0])
                 .newInstance();
         entity.setId(id);
-        Description description = connector.getConnectionStrategy().getClient()
+        Description description = getConnector().getConfig().getClient()
                 .describeEntity(entity);
 
         DynamicObjectBuilder<?> dynamicObject = builder.createDynamicObject(key
@@ -117,8 +109,8 @@ public class DataSenseResolver {
                 DynamicObjectBuilder<?> innerObject = dynamicObject.addList(
                         description.getName()).ofDynamicObject("ingredients");
                 try {
-                    Description ingredientDescription = connector
-                            .getConnectionStrategy().getClient()
+                    Description ingredientDescription = getConnector()
+                            .getConfig().getClient()
                             .describeEntity(new Ingredient());
                     for (Description desc : ingredientDescription.getInnerFields()) {
                         addFields(desc, innerObject);
@@ -155,11 +147,11 @@ public class DataSenseResolver {
 
     }
 
-    public CookBookConnector getConnector() {
+    public CookbookConnector getConnector() {
         return connector;
     }
 
-    public void setConnector(CookBookConnector connector) {
+    public void setConnector(CookbookConnector connector) {
         this.connector = connector;
     }
 

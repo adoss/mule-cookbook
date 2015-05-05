@@ -6,35 +6,26 @@
 package org.mule.modules.cookbook;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mule.api.annotations.Config;
 import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.MetaDataScope;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.ReconnectOn;
-import org.mule.api.annotations.Source;
-import org.mule.api.annotations.SourceStrategy;
-import org.mule.api.annotations.Transformer;
 import org.mule.api.annotations.lifecycle.OnException;
 import org.mule.api.annotations.param.Default;
 import org.mule.api.annotations.param.MetaDataKeyParam;
 import org.mule.api.annotations.param.MetaDataKeyParamAffectsType;
 import org.mule.api.annotations.param.RefOnly;
-import org.mule.api.callback.SourceCallback;
 import org.mule.modules.cookbook.config.ConnectorConfig;
 import org.mule.modules.cookbook.datasense.DataSenseResolver;
 import org.mule.modules.cookbook.handler.CookbookHandler;
 
-import com.cookbook.tutorial.client.ICookbookCallback;
 import com.cookbook.tutorial.service.CookBookEntity;
-import com.cookbook.tutorial.service.Ingredient;
 import com.cookbook.tutorial.service.InvalidEntityException;
 import com.cookbook.tutorial.service.NoSuchEntityException;
 import com.cookbook.tutorial.service.Recipe;
 import com.cookbook.tutorial.service.SessionExpiredException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Anypoint Connector
@@ -52,7 +43,7 @@ public class CookbookConnector {
      * Returns the list of recently added recipes
      *
      * {@sample.xml ../../../doc/cook-book-connector.xml.sample cook-book:getRecentlyAdded}
-     *
+     * 
      * @return A list of the recently added recipes
      */
     @Processor
@@ -61,94 +52,49 @@ public class CookbookConnector {
     }
 
     /**
-     * Description for getRecentlyAddedSource
-     *
-     * {@sample.xml ../../../doc/cook-book-connector.xml.sample cook-book:getRecentlyAddedSource}
-     *
-     * @param callback
-     *            The callback that will hook the result into mule event.
-     * @throws Exception
-     *             When the source fails.
-     */
-    @Source(sourceStrategy = SourceStrategy.POLLING, pollingPeriod = 10000)
-    public void getRecentlyAddedSource(final SourceCallback callback) throws Exception {
-
-        if (this.getConfig().getClient() != null) {
-            // Every 5 seconds our callback will be executed
-            this.getConfig().getClient().getRecentlyAdded(new ICookbookCallback() {
-
-                @Override
-                public void execute(List<Recipe> recipes) throws Exception {
-                    callback.process(recipes);
-                }
-            });
-
-            if (Thread.interrupted()) {
-                throw new InterruptedException();
-            }
-        }
-    }
-
-    /**
      * Description for create
      *
      * {@sample.xml ../../../doc/cook-book-connector.xml.sample cook-book:create}
      *
+     * @param type
+     *            Object Type
      * @param entity
      *            Ingredient to be created
      * @return return Ingredient with Id from the system.
-     *
+     * 
      * @throws InvalidTokenException
      * @throws SessionExpiredException
      * @throws InvalidEntityException
      */
-    @SuppressWarnings("unchecked")
     @Processor
     @OnException(handler = CookbookHandler.class)
     @ReconnectOn(exceptions = { SessionExpiredException.class })
-    public Map<String, Object> create(@MetaDataKeyParam(affects = MetaDataKeyParamAffectsType.BOTH) String type, @Default("#[payload]") @RefOnly Map<String, Object> entity)
+    public CookBookEntity create(@MetaDataKeyParam(affects = MetaDataKeyParamAffectsType.BOTH) String type, @Default("#[payload]") @RefOnly CookBookEntity entity)
             throws InvalidEntityException, SessionExpiredException {
-        ObjectMapper m = new ObjectMapper();
-        CookBookEntity input = null;
-        if (type.contains("com.cookbook.tutorial.service.Recipe")) {
-            input = m.convertValue(entity, Recipe.class);
-        } else if (type.contains("com.cookbook.tutorial.service.Ingredient")) {
-            input = m.convertValue(entity, Ingredient.class);
-        } else {
-            throw new InvalidEntityException("Don't know how to handle type:" + type);
-        }
-        return m.convertValue(this.getConfig().getClient().create(input), Map.class);
+        return config.getClient().create(entity);
     }
 
     /**
      * Description for update
      *
      * {@sample.xml ../../../doc/cook-book-connector.xml.sample cook-book:update}
-     *
+     * 
+     * @param type
+     *            Object Type
      * @param entity
      *            Ingredient to be updated
      * @return return Ingredient with Id from the system.
-     *
+     * 
      * @throws SessionExpiredException
      * @throws InvalidEntityException
      * @throws NoSuchEntityException
      */
-    @SuppressWarnings("unchecked")
     @Processor
     @OnException(handler = CookbookHandler.class)
     @ReconnectOn(exceptions = { SessionExpiredException.class })
-    public Map<String, Object> update(@MetaDataKeyParam(affects = MetaDataKeyParamAffectsType.BOTH) String type, @Default("#[payload]") @RefOnly Map<String, Object> entity)
+    public CookBookEntity update(@MetaDataKeyParam(affects = MetaDataKeyParamAffectsType.BOTH) String type, @Default("#[payload]") @RefOnly CookBookEntity entity)
             throws InvalidEntityException, SessionExpiredException, NoSuchEntityException {
-        ObjectMapper m = new ObjectMapper();
-        CookBookEntity input = null;
-        if (type.contains("com.cookbook.tutorial.service.Recipe")) {
-            input = m.convertValue(entity, Recipe.class);
-        } else if (type.contains("com.cookbook.tutorial.service.Ingredient")) {
-            input = m.convertValue(entity, Ingredient.class);
-        } else {
-            throw new InvalidEntityException("Don't know how to handle type:" + type);
-        }
-        return m.convertValue(this.getConfig().getClient().update(input), Map.class);
+        return config.getClient().update(entity);
     }
 
     /**
@@ -156,22 +102,22 @@ public class CookbookConnector {
      *
      * {@sample.xml ../../../doc/cook-book-connector.xml.sample cook-book:get}
      *
+     * @param type
+     *            Object Type
      * @param id
      *            Id of the entity to retrieve
      * @return return Ingredient with Id from the system.
-     *
+     * 
      * @throws SessionExpiredException
      * @throws InvalidEntityException
      * @throws NoSuchEntityException
      */
-    @SuppressWarnings("unchecked")
     @Processor
     @OnException(handler = CookbookHandler.class)
     @ReconnectOn(exceptions = { SessionExpiredException.class })
-    public Map<String, Object> get(@MetaDataKeyParam(affects = MetaDataKeyParamAffectsType.OUTPUT) String type, @Default("1") Integer id) throws InvalidEntityException,
+    public CookBookEntity get(@MetaDataKeyParam(affects = MetaDataKeyParamAffectsType.OUTPUT) String type, @Default("1") Integer id) throws InvalidEntityException,
             SessionExpiredException, NoSuchEntityException {
-        ObjectMapper m = new ObjectMapper();
-        return m.convertValue(this.getConfig().getClient().get(id), Map.class);
+        return config.getClient().get(id);
     }
 
     /**
@@ -182,7 +128,7 @@ public class CookbookConnector {
      * @param id
      *            Id of the entity to retrieve
      * @return return Ingredient with Id from the system.
-     *
+     * 
      * @throws SessionExpiredException
      * @throws NoSuchEntityException
      */
@@ -190,15 +136,7 @@ public class CookbookConnector {
     @OnException(handler = CookbookHandler.class)
     @ReconnectOn(exceptions = { SessionExpiredException.class })
     public void delete(@Default("1") Integer id) throws NoSuchEntityException, SessionExpiredException {
-        this.getConfig().getClient().delete(id);
-    }
-
-    @Transformer(sourceTypes = { List.class })
-    public static List<Map<String, Object>> transformJsonToComments(List<Recipe> list) {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Map<String, Object>> result = mapper.convertValue(list, new TypeReference<List<Map<String, Object>>>() {
-        });
-        return result;
+        config.getClient().delete(id);
     }
 
     public ConnectorConfig getConfig() {

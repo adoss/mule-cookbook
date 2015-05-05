@@ -48,7 +48,7 @@ Just annotate your @Processor method with the @ReconnectOn exception.
 ----
 include::{resourcesDir}/java/v3/CookbookConnector2.java[lines=60..65]
 ----
-+
+
 Check the full link:{resourcesDir}/java/v3/CookbookConnector2.java[source code].
 
 In our Mule app, you can configure a reconnection strategy so that our Mule app is ready to  handle session expirations.
