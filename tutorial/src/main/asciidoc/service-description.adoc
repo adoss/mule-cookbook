@@ -48,9 +48,9 @@ The web service is available online.
 
 * The rest base url is *http://devkit-cookbook.cloudhub.io/rest*
 
-* The OAuth Authorize url is */oauth/authorize*
+** The OAuth Authorize url is */oauth/authorize*
 
-* The Access Token url is */oauth/accessToken*
+** The Access Token url is */oauth/accessToken*
 
 [NOTE]
 ====
