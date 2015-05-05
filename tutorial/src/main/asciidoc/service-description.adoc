@@ -46,7 +46,11 @@ The web service is available online.
 
 * To consume the SOAP version and the SDK just make the request to the address: *http://devkit-cookbook.cloudhub.io/soap*
 
-* The rest base url is *http://devkit-cookbook.cloudhub.io/rest/*
+* The rest base url is *http://devkit-cookbook.cloudhub.io/rest*
+
+* The OAuth Authorize url is */oauth/authorize*
+
+* The Access Token url is */oauth/accessToken*
 
 [NOTE]
 ====
