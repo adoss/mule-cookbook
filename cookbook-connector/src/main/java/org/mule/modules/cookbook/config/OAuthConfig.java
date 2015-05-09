@@ -5,7 +5,7 @@ import org.mule.api.annotations.oauth.*;
 
 import com.cookbook.tutorial.client.MuleCookBookClient;
 
-@OAuth2(configElementName = "oauth2-type", friendlyName = "OAuth2 Configuration", authorizationUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/authorize", accessTokenUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/accessToken", accessTokenRegex = "access_token=([^&]+)")
+@OAuth2(configElementName = "oauth2-type", friendlyName = "OAuth2 Configuration", authorizationUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/authorize", accessTokenUrl = "http://devkit-cookbook.cloudhub.io/rest/oauth/accessToken")
 public class OAuthConfig extends ConnectorConfig {
 
     @OAuthAccessToken
